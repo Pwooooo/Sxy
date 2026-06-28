@@ -60,7 +60,7 @@ export default async function handler(req, res) {
   if (raw) {
     user = typeof raw === 'string' ? JSON.parse(raw) : raw;
   } else {
-    user = { email: emailKey, createdAt: new Date().toISOString() };
+    user = { email: emailKey, username: robloxUser, createdAt: new Date().toISOString() };
   }
 
   const key = 'SXY-' + Array.from({length: 4}, () => crypto.randomBytes(2).toString('hex').toUpperCase()).join('-');
