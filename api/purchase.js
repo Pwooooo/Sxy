@@ -1,10 +1,20 @@
-import { Redis } from '@upstash/redis';
 import crypto from 'crypto';
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN,
-});
+const REDIS_URL = process.env.UPSTASH_REDIS_REST_URL;
+const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+async function redisCommand(...args) {
+  const res = await fetch(REDIS_URL, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + REDIS_TOKEN,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(args)
+  });
+  const data = await res.json();
+  return data.result;
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -18,7 +28,7 @@ export default async function handler(req, res) {
   }
 
   const emailKey = email.toLowerCase().trim();
-  const raw = await redis.get('user:' + emailKey);
+  const raw = await redisCommand('GET', 'user:' + emailKey);
 
   if (!raw) {
     return res.status(404).json({ error: 'User not found' });
@@ -34,7 +44,7 @@ export default async function handler(req, res) {
   user.robloxUserId = robloxUserId;
   user.purchasedAt = new Date().toISOString();
 
-  await redis.set('user:' + emailKey, user);
+  await redisCommand('SET', 'user:' + emailKey, JSON.stringify(user));
 
   return res.status(200).json({
     success: true,

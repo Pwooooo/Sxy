@@ -1,10 +1,20 @@
-import { Redis } from '@upstash/redis';
 import crypto from 'crypto';
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN,
-});
+const REDIS_URL = process.env.UPSTASH_REDIS_REST_URL;
+const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+async function redisCommand(...args) {
+  const res = await fetch(REDIS_URL, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + REDIS_TOKEN,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(args)
+  });
+  const data = await res.json();
+  return data.result;
+}
 
 function hashPassword(password) {
   const salt = crypto.randomBytes(16).toString('hex');
@@ -29,7 +39,7 @@ export default async function handler(req, res) {
 
   const emailKey = email.toLowerCase().trim();
 
-  const existing = await redis.get('user:' + emailKey);
+  const existing = await redisCommand('GET', 'user:' + emailKey);
   if (existing) {
     return res.status(409).json({ error: 'An account with this email already exists' });
   }
@@ -43,10 +53,11 @@ export default async function handler(req, res) {
     createdAt: new Date().toISOString()
   };
 
-  await redis.set('user:' + emailKey, user);
+  await redisCommand('SET', 'user:' + emailKey, JSON.stringify(user));
 
   const token = crypto.randomBytes(32).toString('hex');
-  await redis.set('session:' + token, emailKey, { ex: 60 * 60 * 24 * 30 });
+  await redisCommand('SET', 'session:' + token, emailKey);
+  await redisCommand('EXPIRE', 'session:' + token, 60 * 60 * 24 * 30);
 
   return res.status(200).json({
     success: true,
