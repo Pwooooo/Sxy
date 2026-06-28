@@ -278,6 +278,7 @@
           </div>
           <div class="modal-step-desc">We'll send your license key here</div>
           <input type="email" class="modal-step-input" id="mEmail" placeholder="you@example.com" oninput="mCheckContinue()">
+          <div class="modal-step-status" id="mStep4Status"></div>
         </div>
       </div>
 
@@ -444,16 +445,11 @@
           localStorage.setItem('sxy_email', email);
           window.location.href = 'dashboard.html';
         } else {
-          const status = document.getElementById('mStep4Status') || document.querySelector('.modal-step-status');
+          const status = document.getElementById('mStep4Status');
+          status.textContent = '✕ ' + (data.error || 'Purchase failed');
+          status.className = 'modal-step-status error';
           btn.textContent = '→ CONTINUE';
           btn.disabled = false;
-          const errDiv = document.createElement('div');
-          errDiv.className = 'modal-step-status error';
-          errDiv.textContent = '✕ ' + (data.error || 'Purchase failed');
-          errDiv.style.marginTop = '8px';
-          const footer = document.querySelector('.modal-footer');
-          footer.insertBefore(errDiv, btn);
-          setTimeout(() => errDiv.remove(), 5000);
         }
       } catch (e) {
         btn.textContent = '→ CONTINUE';
