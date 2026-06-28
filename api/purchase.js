@@ -34,6 +34,11 @@ export default async function handler(req, res) {
     return res.status(404).json({ error: 'User not found' });
   }
 
+  const existingRoblox = await redisCommand('GET', 'roblox-used:' + robloxUserId);
+  if (existingRoblox && existingRoblox !== emailKey) {
+    return res.status(400).json({ error: 'This Roblox account has already been used to claim a key.' });
+  }
+
   const user = typeof raw === 'string' ? JSON.parse(raw) : raw;
 
   const key = 'SXY-' + Array.from({length: 4}, () => crypto.randomBytes(2).toString('hex').toUpperCase()).join('-');
@@ -45,6 +50,7 @@ export default async function handler(req, res) {
   user.purchasedAt = new Date().toISOString();
 
   await redisCommand('SET', 'user:' + emailKey, JSON.stringify(user));
+  await redisCommand('SET', 'roblox-used:' + robloxUserId, emailKey);
 
   return res.status(200).json({
     success: true,
