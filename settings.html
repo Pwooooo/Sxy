@@ -197,6 +197,12 @@
         <div class="card">
           <div class="card-row" style="flex-direction: column; align-items: stretch; gap: 12px;">
             <div class="card-label">Theme</div>
+            <div id="themePreview" style="display:flex;gap:6px;margin-bottom:4px;">
+              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
+              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
+              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
+              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
+            </div>
             <select class="theme-select" id="themeSelect" onchange="setTheme(this.value)">
               <option value="light">Light</option>
               <option value="dark">Dark</option>
@@ -204,12 +210,6 @@
               <option value="sakura">Sakura</option>
               <option value="nature">Nature</option>
             </select>
-            <div id="themePreview" style="display:flex;gap:6px;margin-top:4px;">
-              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
-              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
-              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
-              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
-            </div>
           </div>
         </div>
       </div>
