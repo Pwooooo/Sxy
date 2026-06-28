@@ -162,8 +162,11 @@
     const plan = localStorage.getItem('sxy_plan');
     const email = localStorage.getItem('sxy_email');
 
+    if (user) {
+      document.getElementById('dashSub').textContent = 'Welcome, ' + user + '! Here\'s your account overview.';
+    }
+
     if (license && plan) {
-      document.getElementById('dashSub').textContent = 'Welcome, ' + (user || 'User') + '! Here\'s your account overview.';
       document.getElementById('dashPlan').textContent = plan === 'basic' ? 'Basic' : 'Premium';
       document.getElementById('dashKey').textContent = license;
       document.getElementById('dashKeySection').style.display = '';
