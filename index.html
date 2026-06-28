@@ -107,6 +107,14 @@
     .card-cta svg { width: 16px; height: 16px; transition: transform 0.2s; }
     .card:hover .card-cta svg { transform: translateX(4px); }
 
+    .hero-btn {
+      display: inline-block; padding: 14px 40px; background: var(--accent); color: var(--bg-card);
+      border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .hero-btn:hover { background: var(--accent-hover); transform: translateY(-3px); }
+    .hero-btn:active { transform: scale(0.98); }
+
     .footer {
       text-align: center; padding: 40px 20px; color: var(--text-muted);
       font-size: 13px; margin-top: auto;
@@ -133,7 +141,7 @@
     <section class="hero">
       <h1 id="title">SXY</h1>
       <div style="margin-top: 40px;">
-        <a id="heroBtn" href="signup.html" style="display: inline-block; padding: 14px 40px; background: #111; color: #fff; border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none; transition: background 0.2s, transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">Get Started</a>
+        <a id="heroBtn" href="signup.html" class="hero-btn">Get Started</a>
       </div>
     </section>
 
