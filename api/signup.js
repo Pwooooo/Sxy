@@ -37,6 +37,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Password must be at least 6 characters' });
   }
 
+  const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+  if (!usernameRegex.test(username.trim())) {
+    return res.status(400).json({ error: 'Username must be 3-20 characters and only letters, numbers, and underscores' });
+  }
+
   const emailKey = email.toLowerCase().trim();
 
   const existing = await redisCommand('GET', 'user:' + emailKey);

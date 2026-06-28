@@ -236,6 +236,12 @@
         return;
       }
 
+      if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+        errEl.textContent = 'Username must be 3-20 characters and only letters, numbers, and underscores';
+        errEl.style.display = 'block';
+        return;
+      }
+
       btn.disabled = true;
       btn.textContent = 'Creating account...';
 
