@@ -28,13 +28,13 @@ export default async function handler(req, res) {
   }
 
   const emailKey = email.toLowerCase().trim();
-  const raw = await redisCommand('GET', 'user:' + emailKey);
 
   const existingRoblox = await redisCommand('GET', 'roblox-used:' + robloxUserId);
   if (existingRoblox && existingRoblox !== emailKey) {
     return res.status(400).json({ error: 'This Roblox account has already been used to claim a key.' });
   }
 
+  const raw = await redisCommand('GET', 'user:' + emailKey);
   let user;
   if (raw) {
     user = typeof raw === 'string' ? JSON.parse(raw) : raw;
@@ -43,6 +43,7 @@ export default async function handler(req, res) {
   }
 
   const key = 'SXY-' + Array.from({length: 4}, () => crypto.randomBytes(2).toString('hex').toUpperCase()).join('-');
+  const sessionToken = crypto.randomBytes(32).toString('hex');
 
   user.plan = plan;
   user.licenseKey = key;
@@ -51,11 +52,13 @@ export default async function handler(req, res) {
   user.purchasedAt = new Date().toISOString();
 
   await redisCommand('SET', 'user:' + emailKey, JSON.stringify(user));
+  await redisCommand('SET', 'session:' + sessionToken, emailKey, 'EX', 2592000);
   await redisCommand('SET', 'roblox-used:' + robloxUserId, emailKey);
 
   return res.status(200).json({
     success: true,
     licenseKey: key,
+    sessionToken,
     plan
   });
 }

@@ -437,6 +437,7 @@
 
         if (res.ok && data.licenseKey) {
           localStorage.setItem('sxy_license', data.licenseKey);
+          if (data.sessionToken) localStorage.setItem('sxy_token', data.sessionToken);
           localStorage.setItem('sxy_user', document.getElementById('mRobloxUser').value.trim());
           localStorage.setItem('sxy_roblox_user', document.getElementById('mRobloxUser').value.trim());
           localStorage.setItem('sxy_plan', mCurrentPlan);
