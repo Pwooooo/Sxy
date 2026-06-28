@@ -201,7 +201,7 @@
       for (let i = 0; i < lines; i++) {
         ctx.beginPath();
         const yBase = i * spacing;
-        const alpha = 0.03 + (Math.abs(i - lines / 2) / lines) * 0.04;
+        const alpha = 0.15 + (Math.abs(i - lines / 2) / lines) * 0.2;
         ctx.strokeStyle = `rgba(0,0,0,${alpha})`;
         ctx.lineWidth = 1.2;
 
