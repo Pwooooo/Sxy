@@ -305,7 +305,6 @@
       document.getElementById('modalPlanPrice').textContent = p.price;
       document.getElementById('mGamepassLink').href = p.gamepassUrl;
 
-      // Reset steps
       mUserId = null; mStep1Done = false; mStep3Done = false;
       document.getElementById('mRobloxUser').value = '';
       document.getElementById('mEmail').value = '';
@@ -395,20 +394,12 @@
           mStep3Done = true;
           mCheckContinue();
         } else {
-          status.textContent = '✓ Proceeding — make sure you purchased the gamepass';
-          status.className = 'modal-step-status success';
-          document.getElementById('mStep3Num').classList.add('done');
-          document.getElementById('mStep3Num').textContent = '✓';
-          mStep3Done = true;
-          mCheckContinue();
+          status.textContent = '✕ You don\'t own this gamepass yet';
+          status.className = 'modal-step-status error';
         }
       } catch (e) {
-        status.textContent = '✓ Proceeding — make sure you purchased the gamepass';
-        status.className = 'modal-step-status success';
-        document.getElementById('mStep3Num').classList.add('done');
-        document.getElementById('mStep3Num').textContent = '✓';
-        mStep3Done = true;
-        mCheckContinue();
+        status.textContent = '✕ Error verifying purchase';
+        status.className = 'modal-step-status error';
       }
       btn.disabled = false; btn.textContent = 'Verify Purchase';
     }
