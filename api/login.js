@@ -1,5 +1,10 @@
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 import crypto from 'crypto';
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 function verifyPassword(password, stored) {
   const [salt, hash] = stored.split(':');
@@ -20,7 +25,7 @@ export default async function handler(req, res) {
 
   const emailKey = email.toLowerCase().trim();
 
-  const raw = await kv.get('user:' + emailKey);
+  const raw = await redis.get('user:' + emailKey);
   if (!raw) {
     return res.status(401).json({ error: 'Invalid email or password' });
   }
@@ -32,7 +37,7 @@ export default async function handler(req, res) {
   }
 
   const token = crypto.randomBytes(32).toString('hex');
-  await kv.set('session:' + token, emailKey, { ex: 60 * 60 * 24 * 30 });
+  await redis.set('session:' + token, emailKey, { ex: 60 * 60 * 24 * 30 });
 
   return res.status(200).json({
     success: true,
