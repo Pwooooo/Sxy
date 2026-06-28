@@ -346,9 +346,9 @@
       status.textContent = ''; status.className = 'modal-step-status loading';
 
       try {
-        const res = await fetch('https://users.roblox.com/v1/usernames/users', {
+        const res = await fetch('/api/roblox-user', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ usernames: [username] })
+          body: JSON.stringify({ username })
         });
         const data = await res.json();
         if (data.data && data.data.length > 0) {
@@ -381,7 +381,10 @@
 
       try {
         const gpId = plans[mCurrentPlan].gamepassId;
-        const res = await fetch(`https://inventory.roblox.com/v1/users/${mUserId}/items/Pass/${gpId}`);
+        const res = await fetch('/api/roblox-pass', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: mUserId, gamepassId: gpId })
+        });
         if (res.ok) {
           const data = await res.json();
           if (data.data && data.data.length > 0) {
