@@ -142,10 +142,10 @@
     .modal-step-input { width: calc(100% - 36px); margin-left: 36px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; background: var(--bg-input); }
     .modal-step-input:focus { border-color: var(--border-focus); }
     .modal-step-input::placeholder { color: #bbb; }
-    .modal-step-btn { margin-left: 36px; padding: 8px 16px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.2s; text-decoration: none; display: inline-block; }
+    .modal-step-btn { margin-left: 36px; margin-top: 8px; padding: 10px 20px; background: var(--accent); color: var(--bg-card); border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.2s; text-decoration: none; display: inline-block; }
     .modal-step-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
     .modal-step-btn:disabled { background: var(--text-muted); cursor: not-allowed; transform: none; }
-    .modal-step-status { margin-left: 36px; font-size: 13px; font-weight: 600; }
+    .modal-step-status { margin-left: 36px; margin-top: 6px; font-size: 13px; font-weight: 600; }
     .modal-step-status.loading { color: var(--text-secondary); }
     .modal-step-status.success { color: #22c55e; }
     .modal-step-status.error { color: #ef4444; }
@@ -385,21 +385,20 @@
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId: mUserId, gamepassId: gpId })
         });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.data && data.data.length > 0) {
-            status.textContent = '✓ Gamepass verified!';
-            status.className = 'modal-step-status success';
-            document.getElementById('mStep3Num').classList.add('done');
-            document.getElementById('mStep3Num').textContent = '✓';
-            mStep3Done = true;
-            mCheckContinue();
-          } else {
-            status.textContent = '✕ You don\'t own this gamepass yet';
-            status.className = 'modal-step-status error';
-          }
+        const data = await res.json();
+
+        if (data.owned === true) {
+          status.textContent = '✓ Gamepass verified!';
+          status.className = 'modal-step-status success';
+          document.getElementById('mStep3Num').classList.add('done');
+          document.getElementById('mStep3Num').textContent = '✓';
+          mStep3Done = true;
+          mCheckContinue();
+        } else if (data.owned === null) {
+          status.innerHTML = '⚠ Could not auto-verify (private inventory). <span style="cursor:pointer;text-decoration:underline;" onclick="mForceVerify()">Click here to continue anyway</span>';
+          status.className = 'modal-step-status loading';
         } else {
-          status.textContent = '✕ Could not verify — make sure the gamepass is public';
+          status.textContent = '✕ You don\'t own this gamepass yet';
           status.className = 'modal-step-status error';
         }
       } catch (e) {
@@ -407,6 +406,16 @@
         status.className = 'modal-step-status error';
       }
       btn.disabled = false; btn.textContent = 'Verify Purchase';
+    }
+
+    function mForceVerify() {
+      const status = document.getElementById('mStep3Status');
+      status.textContent = '✓ Proceeding on trust';
+      status.className = 'modal-step-status success';
+      document.getElementById('mStep3Num').classList.add('done');
+      document.getElementById('mStep3Num').textContent = '✓';
+      mStep3Done = true;
+      mCheckContinue();
     }
 
     function mCheckContinue() {

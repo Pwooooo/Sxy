@@ -9,10 +9,18 @@ export default async function handler(req, res) {
   }
 
   try {
-    const robloxRes = await fetch(`https://inventory.roblox.com/v1/users/${userId}/items/Pass/${gamepassId}`);
-    const data = await robloxRes.json();
-    return res.status(200).json(data);
+    const robloxRes = await fetch(`https://inventory.roblox.com/v1/users/${userId}/items/Pass/${gamepassId}?limit=10`);
+
+    if (robloxRes.ok) {
+      const data = await robloxRes.json();
+      if (data.data && data.data.length > 0) {
+        return res.status(200).json({ owned: true });
+      }
+      return res.status(200).json({ owned: false });
+    }
+
+    return res.status(200).json({ owned: null, message: 'Could not verify — inventory may be private' });
   } catch (e) {
-    return res.status(500).json({ error: 'Failed to verify gamepass' });
+    return res.status(200).json({ owned: null, message: 'Could not verify automatically' });
   }
 }
