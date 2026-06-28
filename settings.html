@@ -136,6 +136,17 @@
 
     .theme-select { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text); font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
     .theme-select:focus { outline: none; border-color: var(--border-focus); }
+    .custom-dropdown { position: relative; width: 100%; }
+    .custom-dropdown-trigger { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text); font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+    .custom-dropdown-trigger:hover { border-color: var(--text-muted); }
+    .custom-dropdown-trigger svg { width: 12px; height: 12px; color: var(--text-muted); transition: transform 0.2s; flex-shrink: 0; }
+    .custom-dropdown.open .custom-dropdown-trigger svg { transform: rotate(180deg); }
+    .custom-dropdown-menu { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 4px; z-index: 100; display: none; box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+    .custom-dropdown.open .custom-dropdown-menu { display: block; }
+    .custom-dropdown-option { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text); transition: background 0.15s; }
+    .custom-dropdown-option:hover { background: var(--bg-input); }
+    .custom-dropdown-option.active { background: var(--bg-input); color: var(--accent); font-weight: 600; }
+    .theme-swatch { width: 32px; height: 22px; border-radius: 5px; border: 1px solid var(--border); flex-shrink: 0; }
   </style>
   <link rel="stylesheet" href="theme.css">
 </head>
@@ -197,19 +208,29 @@
         <div class="card">
           <div class="card-row" style="flex-direction: column; align-items: stretch; gap: 12px;">
             <div class="card-label">Theme</div>
-            <div id="themePreview" style="display:flex;gap:6px;margin-bottom:4px;">
-              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
-              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
-              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
-              <div style="flex:1;height:36px;border-radius:8px;border:1px solid var(--border);"></div>
+            <div class="custom-dropdown" id="themeDropdown">
+              <div class="custom-dropdown-trigger" onclick="event.stopPropagation(); toggleDropdown()">
+                <span id="themeLabel">Light</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div class="custom-dropdown-menu">
+                <div class="custom-dropdown-option" data-theme-choice="light" onclick="selectTheme('light')">
+                  <div class="theme-swatch" style="background:linear-gradient(135deg,#fafafa 50%,#111 50%);"></div>Light
+                </div>
+                <div class="custom-dropdown-option" data-theme-choice="dark" onclick="selectTheme('dark')">
+                  <div class="theme-swatch" style="background:linear-gradient(135deg,#111 50%,#e5e5e5 50%);"></div>Dark
+                </div>
+                <div class="custom-dropdown-option" data-theme-choice="midnight" onclick="selectTheme('midnight')">
+                  <div class="theme-swatch" style="background:linear-gradient(135deg,#0a0a1a 50%,#7777ff 50%);"></div>Midnight
+                </div>
+                <div class="custom-dropdown-option" data-theme-choice="sakura" onclick="selectTheme('sakura')">
+                  <div class="theme-swatch" style="background:linear-gradient(135deg,#fff5f7 50%,#e8729a 50%);"></div>Sakura
+                </div>
+                <div class="custom-dropdown-option" data-theme-choice="nature" onclick="selectTheme('nature')">
+                  <div class="theme-swatch" style="background:linear-gradient(135deg,#f4f7f2 50%,#2d7a2d 50%);"></div>Nature
+                </div>
+              </div>
             </div>
-            <select class="theme-select" id="themeSelect" onchange="setTheme(this.value)">
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-              <option value="midnight">Midnight</option>
-              <option value="sakura">Sakura</option>
-              <option value="nature">Nature</option>
-            </select>
           </div>
         </div>
       </div>
@@ -245,33 +266,28 @@
     if (key) document.getElementById('sKey').textContent = key;
     if (roblox) document.getElementById('sRoblox').textContent = roblox;
 
-    const themeColors = {
-      light:   { bg: '#fafafa', card: '#ffffff', accent: '#111111', wave: '#111111' },
-      dark:    { bg: '#111111', card: '#1a1a1a', accent: '#e5e5e5', wave: '#e5e5e5' },
-      midnight:{ bg: '#0a0a1a', card: '#12122a', accent: '#7777ff', wave: '#6464c8' },
-      sakura:  { bg: '#fff5f7', card: '#ffffff', accent: '#e8729a', wave: '#e8729a' },
-      nature:  { bg: '#f4f7f2', card: '#ffffff', accent: '#2d7a2d', wave: '#2d7a2d' }
-    };
-
-    function updatePreview(theme) {
-      const c = themeColors[theme] || themeColors.light;
-      const boxes = document.getElementById('themePreview').children;
-      boxes[0].style.background = c.bg;
-      boxes[1].style.background = c.card;
-      boxes[2].style.background = c.accent;
-      boxes[3].style.background = c.wave;
-    }
-
-    function setTheme(theme) {
+    function selectTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('sxy_theme', theme);
-      document.getElementById('themeSelect').value = theme;
-      updatePreview(theme);
+      document.getElementById('themeLabel').textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+      document.querySelectorAll('.custom-dropdown-option').forEach(o => {
+        o.classList.toggle('active', o.getAttribute('data-theme-choice') === theme);
+      });
+      document.getElementById('themeDropdown').classList.remove('open');
     }
 
+    function toggleDropdown() {
+      document.getElementById('themeDropdown').classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('themeDropdown').contains(e.target)) {
+        document.getElementById('themeDropdown').classList.remove('open');
+      }
+    });
+
     const currentTheme = localStorage.getItem('sxy_theme') || 'light';
-    document.getElementById('themeSelect').value = currentTheme;
-    updatePreview(currentTheme);
+    selectTheme(currentTheme);
 
     function doLogout() {
       localStorage.removeItem('sxy_token');
