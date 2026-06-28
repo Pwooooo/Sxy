@@ -30,16 +30,17 @@ export default async function handler(req, res) {
   const emailKey = email.toLowerCase().trim();
   const raw = await redisCommand('GET', 'user:' + emailKey);
 
-  if (!raw) {
-    return res.status(404).json({ error: 'User not found' });
-  }
-
   const existingRoblox = await redisCommand('GET', 'roblox-used:' + robloxUserId);
   if (existingRoblox && existingRoblox !== emailKey) {
     return res.status(400).json({ error: 'This Roblox account has already been used to claim a key.' });
   }
 
-  const user = typeof raw === 'string' ? JSON.parse(raw) : raw;
+  let user;
+  if (raw) {
+    user = typeof raw === 'string' ? JSON.parse(raw) : raw;
+  } else {
+    user = { email: emailKey, createdAt: new Date().toISOString() };
+  }
 
   const key = 'SXY-' + Array.from({length: 4}, () => crypto.randomBytes(2).toString('hex').toUpperCase()).join('-');
 
