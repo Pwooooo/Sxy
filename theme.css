@@ -91,6 +91,29 @@
   --btn-danger-hover: #ffe0e8;
 }
 
+[data-theme="nature"] {
+  --bg: #f4f7f2;
+  --bg-card: #ffffff;
+  --bg-input: #f0f4ee;
+  --text: #1a2e1a;
+  --text-secondary: #5a7a5a;
+  --text-muted: #8aaa8a;
+  --border: #d4e4d0;
+  --border-light: #e8f0e5;
+  --border-focus: #3a8a3a;
+  --accent: #2d7a2d;
+  --accent-hover: #1e5e1e;
+  --success: #22c55e;
+  --error: #ef4444;
+  --wave-color: 45,122,45;
+  --card-hover-shadow: 0 8px 30px rgba(45,122,45,0.1);
+  --btn-outline-border: #c4d8c0;
+  --btn-outline-hover-bg: #eaf2e8;
+  --btn-danger-bg: #fef2f2;
+  --btn-danger-border: #fecaca;
+  --btn-danger-hover: #fee2e2;
+}
+
 body {
   background: var(--bg);
   color: var(--text);

@@ -76,6 +76,23 @@
       --sakura-accent: #e8729a;
     }
 
+    [data-theme="nature"] {
+      --bg: #f4f7f2;
+      --bg-card: #ffffff;
+      --bg-input: #f0f4ee;
+      --text: #1a2e1a;
+      --text-secondary: #5a7a5a;
+      --text-muted: #8aaa8a;
+      --border: #d4e4d0;
+      --border-light: #e8f0e5;
+      --border-focus: #3a8a3a;
+      --accent: #2d7a2d;
+      --accent-hover: #1e5e1e;
+      --success: #22c55e;
+      --error: #ef4444;
+      --wave-color: 45,122,45;
+    }
+
     body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; }
     canvas#waves { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
     .page { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
@@ -117,10 +134,8 @@
 
     .footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 13px; margin-top: auto; }
 
-    .theme-btn { flex: 1; padding: 10px; background: transparent; border: 2px solid var(--border); border-radius: 10px; cursor: pointer; transition: border-color 0.2s, transform 0.2s; text-align: center; }
-    .theme-btn:hover { transform: translateY(-2px); }
-    .theme-btn.active { border-color: var(--accent); }
-    .theme-btn span { display: block; margin-top: 6px; font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+    .theme-select { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text); font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .theme-select:focus { outline: none; border-color: var(--border-focus); }
   </style>
   <link rel="stylesheet" href="theme.css">
 </head>
@@ -182,24 +197,13 @@
         <div class="card">
           <div class="card-row" style="flex-direction: column; align-items: stretch; gap: 12px;">
             <div class="card-label">Theme</div>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <button class="theme-btn" data-theme-choice="light" onclick="setTheme('light')">
-                <div style="width:100%;height:40px;background:#fafafa;border:1px solid #e5e5e5;border-radius:8px;"></div>
-                <span>Light</span>
-              </button>
-              <button class="theme-btn" data-theme-choice="dark" onclick="setTheme('dark')">
-                <div style="width:100%;height:40px;background:#111;border:1px solid #2a2a2a;border-radius:8px;"></div>
-                <span>Dark</span>
-              </button>
-              <button class="theme-btn" data-theme-choice="midnight" onclick="setTheme('midnight')">
-                <div style="width:100%;height:40px;background:#0a0a1a;border:1px solid #1e1e3a;border-radius:8px;"></div>
-                <span>Midnight</span>
-              </button>
-              <button class="theme-btn" data-theme-choice="sakura" onclick="setTheme('sakura')">
-                <div style="width:100%;height:40px;background:#fff5f7;border:1px solid #f0d4de;border-radius:8px;"></div>
-                <span>Sakura</span>
-              </button>
-            </div>
+            <select class="theme-select" id="themeSelect" onchange="setTheme(this.value)">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="midnight">Midnight</option>
+              <option value="sakura">Sakura</option>
+              <option value="nature">Nature</option>
+            </select>
           </div>
         </div>
       </div>
@@ -238,15 +242,11 @@
     function setTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('sxy_theme', theme);
-      document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-theme-choice') === theme);
-      });
+      document.getElementById('themeSelect').value = theme;
     }
 
     const currentTheme = localStorage.getItem('sxy_theme') || 'light';
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-theme-choice') === currentTheme);
-    });
+    document.getElementById('themeSelect').value = currentTheme;
 
     function doLogout() {
       localStorage.removeItem('sxy_token');
