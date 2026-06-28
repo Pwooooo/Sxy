@@ -277,7 +277,7 @@
             <div class="modal-step-title">Enter Your Email</div>
           </div>
           <div class="modal-step-desc">We'll send your license key here</div>
-          <input type="email" class="modal-step-input" id="mEmail" placeholder="you@example.com" oninput="mCheckContinue()">
+          <input type="email" class="modal-step-input" id="mEmail" placeholder="you@example.com" oninput="document.getElementById('mStep4Status').textContent=''; document.getElementById('mStep4Status').className='modal-step-status'; mCheckContinue()">
           <div class="modal-step-status" id="mStep4Status"></div>
         </div>
       </div>
@@ -318,12 +318,17 @@
       document.getElementById('mStep4Num').textContent = '4';
       document.getElementById('mStep4Num').className = 'modal-step-num';
       document.getElementById('mStep1Status').textContent = '';
+      document.getElementById('mStep1Status').className = 'modal-step-status';
       document.getElementById('mStep3Status').textContent = '';
+      document.getElementById('mStep3Status').className = 'modal-step-status';
+      document.getElementById('mStep4Status').textContent = '';
+      document.getElementById('mStep4Status').className = 'modal-step-status';
       document.getElementById('mStep1Btn').textContent = 'Verify';
       document.getElementById('mStep1Btn').disabled = false;
       document.getElementById('mStep3Btn').textContent = 'Verify Purchase';
       document.getElementById('mStep3Btn').disabled = false;
       document.getElementById('mContinueBtn').disabled = true;
+      document.getElementById('mContinueBtn').textContent = '→ CONTINUE';
       ['mStep2','mStep3','mStep4'].forEach(id => {
         document.getElementById(id).className = 'modal-step locked';
       });
