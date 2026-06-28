@@ -220,6 +220,15 @@
               <div class="action-desc">Manage your account</div>
             </div>
           </a>
+          <a href="admin.html" class="action-card" id="adminLink" style="display:none;">
+            <div class="action-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div class="action-title">Admin</div>
+              <div class="action-desc">Manage users &amp; settings</div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -254,6 +263,16 @@
         setTimeout(() => document.getElementById('dashCopy').textContent = 'Copy', 1500);
       });
     }
+
+    (async () => {
+      const t = localStorage.getItem('sxy_token');
+      if (t) {
+        try {
+          const r = await fetch('/api/admin-users', { headers: { 'Authorization': 'Bearer ' + t } });
+          if (r.ok) document.getElementById('adminLink').style.display = '';
+        } catch {}
+      }
+    })();
 
     const canvas = document.getElementById('waves');
     const ctx = canvas.getContext('2d');
