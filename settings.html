@@ -4,22 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SXY — Settings</title>
+  <script src="theme.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #fafafa; color: #111; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; }
     canvas#waves { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
     .page { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
     .nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; max-width: 1200px; margin: 0 auto; width: 100%; }
     .nav-logo { font-size: 24px; font-weight: 800; color: #111; text-decoration: none; letter-spacing: -1px; font-family: 'Arial Black', sans-serif; }
     .nav-links { display: flex; align-items: center; gap: 24px; }
-    .nav-link { color: #555; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: color 0.2s, transform 0.2s; }
-    .nav-link:hover { color: #111; transform: translateY(-2px); }
+    .nav-link { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: color 0.2s, transform 0.2s; }
+    .nav-link:hover { color: var(--text); transform: translateY(-2px); }
     .nav-link svg { width: 20px; height: 20px; }
 
     .settings { max-width: 600px; margin: 40px auto; padding: 0 20px; width: 100%; }
     .settings-header { margin-bottom: 40px; animation: fadeIn 0.5s ease-out; }
     .settings-title { font-size: 32px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 4px; }
-    .settings-sub { font-size: 14px; color: #888; }
+    .settings-sub { font-size: 14px; color: var(--text-secondary); }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -28,11 +29,11 @@
     .section:nth-child(3) { animation-delay: 0.1s; }
     .section-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
 
-    .card { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; overflow: hidden; }
-    .card-row { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f0f0f0; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .card-row { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-light); }
     .card-row:last-child { border-bottom: none; }
     .card-label { font-size: 14px; font-weight: 600; }
-    .card-value { font-size: 14px; color: #888; font-family: 'SF Mono', Monaco, monospace; }
+    .card-value { font-size: 14px; color: var(--text-secondary); font-family: 'SF Mono', Monaco, monospace; }
     .card-value.green { color: #22c55e; font-weight: 600; }
 
     .btn { padding: 10px 20px; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; }
@@ -40,11 +41,17 @@
     .btn:active { transform: scale(0.98); }
     .btn-danger { background: #fef2f2; color: #ef4444; border: 1px solid #fecaca; }
     .btn-danger:hover { background: #fee2e2; }
-    .btn-outline { background: transparent; color: #111; border: 1px solid #ddd; }
-    .btn-outline:hover { background: #f9f9f9; border-color: #999; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { background: #f9f9f9; border-color: var(--text-muted); }
 
-    .footer { text-align: center; padding: 40px 20px; color: #999; font-size: 13px; margin-top: auto; }
+    .footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 13px; margin-top: auto; }
+
+    .theme-btn { flex: 1; padding: 10px; background: transparent; border: 2px solid var(--border); border-radius: 10px; cursor: pointer; transition: border-color 0.2s, transform 0.2s; text-align: center; }
+    .theme-btn:hover { transform: translateY(-2px); }
+    .theme-btn.active { border-color: var(--accent); }
+    .theme-btn span { display: block; margin-top: 6px; font-size: 12px; font-weight: 600; color: var(--text-secondary); }
   </style>
+  <link rel="stylesheet" href="theme.css">
 </head>
 <body>
   <canvas id="waves"></canvas>
@@ -100,6 +107,29 @@
       </div>
 
       <div class="section">
+        <div class="section-title">Appearance</div>
+        <div class="card">
+          <div class="card-row" style="flex-direction: column; align-items: stretch; gap: 12px;">
+            <div class="card-label">Theme</div>
+            <div style="display: flex; gap: 10px;">
+              <button class="theme-btn" data-theme-choice="light" onclick="setTheme('light')">
+                <div style="width:100%;height:40px;background:#fafafa;border:1px solid #e5e5e5;border-radius:8px;"></div>
+                <span>Light</span>
+              </button>
+              <button class="theme-btn" data-theme-choice="dark" onclick="setTheme('dark')">
+                <div style="width:100%;height:40px;background:#111;border:1px solid #2a2a2a;border-radius:8px;"></div>
+                <span>Dark</span>
+              </button>
+              <button class="theme-btn" data-theme-choice="midnight" onclick="setTheme('midnight')">
+                <div style="width:100%;height:40px;background:#0a0a1a;border:1px solid #1e1e3a;border-radius:8px;"></div>
+                <span>Midnight</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
         <div class="section-title">Session</div>
         <div class="card">
           <div class="card-row">
@@ -130,6 +160,19 @@
     if (key) document.getElementById('sKey').textContent = key;
     if (roblox) document.getElementById('sRoblox').textContent = roblox;
 
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('sxy_theme', theme);
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-theme-choice') === theme);
+      });
+    }
+
+    const currentTheme = localStorage.getItem('sxy_theme') || 'light';
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-theme-choice') === currentTheme);
+    });
+
     function doLogout() {
       localStorage.removeItem('sxy_token');
       localStorage.removeItem('sxy_user');
@@ -151,13 +194,15 @@
     window.addEventListener('resize', resize); resize();
     function noise(x) { return Math.sin(x*1.2)*0.5 + Math.sin(x*2.3)*0.3 + Math.sin(x*3.7)*0.2; }
     function draw() {
+      const cs = getComputedStyle(document.documentElement);
+      const wc = cs.getPropertyValue('--wave-color').trim();
       ctx.clearRect(0, 0, w, h);
       const lines = 30, spacing = h / lines;
       for (let i = 0; i < lines; i++) {
         ctx.beginPath();
         const yBase = i * spacing;
         const alpha = 0.15 + (Math.abs(i - lines/2)/lines)*0.2;
-        ctx.strokeStyle = `rgba(0,0,0,${alpha})`; ctx.lineWidth = 1.2;
+        ctx.strokeStyle = `rgba(${wc},${alpha})`; ctx.lineWidth = 1.2;
         for (let x = 0; x <= w; x += 3) {
           const xN = x/w;
           const y = yBase + Math.sin(xN*4+time*0.3+i*0.4)*30 + Math.sin(xN*6-time*0.2+i*0.6)*20 + noise(xN*3+time*0.1+i*0.3)*25;

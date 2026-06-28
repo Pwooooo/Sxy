@@ -1,0 +1,238 @@
+:root, [data-theme="light"] {
+  --bg: #fafafa;
+  --bg-card: #ffffff;
+  --bg-input: #fafafa;
+  --text: #111111;
+  --text-secondary: #888888;
+  --text-muted: #999999;
+  --border: #e5e5e5;
+  --border-light: #f0f0f0;
+  --border-focus: #111111;
+  --accent: #111111;
+  --accent-hover: #333333;
+  --success: #22c55e;
+  --error: #ef4444;
+  --wave-color: 0,0,0;
+  --card-hover-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  --btn-outline-border: #dddddd;
+  --btn-outline-hover-bg: #f9f9f9;
+  --btn-danger-bg: #fef2f2;
+  --btn-danger-border: #fecaca;
+  --btn-danger-hover: #fee2e2;
+}
+
+[data-theme="dark"] {
+  --bg: #111111;
+  --bg-card: #1a1a1a;
+  --bg-input: #222222;
+  --text: #e5e5e5;
+  --text-secondary: #999999;
+  --text-muted: #666666;
+  --border: #2a2a2a;
+  --border-light: #222222;
+  --border-focus: #e5e5e5;
+  --accent: #ffffff;
+  --accent-hover: #cccccc;
+  --success: #22c55e;
+  --error: #ef4444;
+  --wave-color: 255,255,255;
+  --card-hover-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  --btn-outline-border: #333333;
+  --btn-outline-hover-bg: #222222;
+  --btn-danger-bg: #2a1215;
+  --btn-danger-border: #5c1d24;
+  --btn-danger-hover: #3a161c;
+}
+
+[data-theme="midnight"] {
+  --bg: #0a0a1a;
+  --bg-card: #12122a;
+  --bg-input: #1a1a35;
+  --text: #e0e0f0;
+  --text-secondary: #8888bb;
+  --text-muted: #555580;
+  --border: #1e1e3a;
+  --border-light: #16162e;
+  --border-focus: #6666cc;
+  --accent: #7777ff;
+  --accent-hover: #9999ff;
+  --success: #22c55e;
+  --error: #ef4444;
+  --wave-color: 100,100,200;
+  --card-hover-shadow: 0 8px 30px rgba(80,80,200,0.15);
+  --btn-outline-border: #2a2a4a;
+  --btn-outline-hover-bg: #1a1a35;
+  --btn-danger-bg: #2a1225;
+  --btn-danger-border: #5c1d45;
+  --btn-danger-hover: #3a1630;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
+
+.auth-box, .payment-card, .plan-card, .card, .stat, .key-box, .action-card, .modal, .modal-plan {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+.form-input, .step-input, .modal-step-input {
+  background: var(--bg-input);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.form-input:focus, .step-input:focus, .modal-step-input:focus {
+  border-color: var(--border-focus);
+}
+
+.form-label, .step-title, .modal-step-title, .card-label, .section-title, .stat-label, .key-label, .action-title, .auth-title, .purchase-title, .dash-title, .settings-title, .modal-header h2, .plan-name, .modal-plan-info h3 {
+  color: var(--text);
+}
+
+.auth-subtitle, .step-desc, .modal-step-desc, .card-value, .action-desc, .purchase-sub, .dash-sub, .settings-sub, .plan-period, .card-price-label, .divider-text {
+  color: var(--text-secondary);
+}
+
+.card-price-num, .modal-plan-price, .stat-value {
+  color: var(--text);
+}
+
+.step-status.success, .card-value.green, .stat-value.green {
+  color: var(--success);
+}
+
+.step-status.error, .modal-step-status.error {
+  color: var(--error);
+}
+
+.step-num, .modal-step-num {
+  background: var(--accent);
+  color: var(--bg-card);
+}
+
+.step-num.done, .modal-step-num.done {
+  background: var(--success);
+}
+
+.btn-primary, .step-btn, .modal-step-btn, .continue-btn, .modal-continue {
+  background: var(--accent);
+  color: var(--bg-card);
+}
+
+.btn-primary:hover, .step-btn:hover, .modal-step-btn:hover, .continue-btn:hover, .modal-continue:hover {
+  background: var(--accent-hover);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 2px solid var(--btn-outline-border);
+}
+
+.btn-outline:hover {
+  background: var(--btn-outline-hover-bg);
+  border-color: var(--text);
+}
+
+.btn-danger {
+  background: var(--btn-danger-bg);
+  color: var(--error);
+  border: 1px solid var(--btn-danger-border);
+}
+
+.btn-danger:hover {
+  background: var(--btn-danger-hover);
+}
+
+.key-copy {
+  background: var(--bg-input);
+  color: var(--text);
+}
+
+.key-copy:hover {
+  background: var(--border);
+}
+
+.plan-toggle {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+.plan-toggle-btn {
+  color: var(--text-muted);
+}
+
+.plan-toggle-btn.active {
+  background: var(--accent);
+  color: var(--bg-card);
+}
+
+.nav-link {
+  color: var(--text-secondary);
+}
+
+.nav-link:hover {
+  color: var(--text);
+}
+
+.nav-logo {
+  color: var(--text);
+}
+
+.modal-close {
+  background: var(--bg-input);
+  color: var(--text-secondary);
+}
+
+.modal-close:hover {
+  background: var(--border);
+}
+
+.plan-icon {
+  background: var(--bg-input);
+}
+
+.plan-card:hover .plan-icon {
+  background: var(--accent);
+}
+
+.plan-icon svg {
+  stroke: var(--text);
+}
+
+.plan-card:hover .plan-icon svg {
+  stroke: var(--bg-card);
+}
+
+.card-icon {
+  background: var(--accent);
+}
+
+.card-icon svg {
+  stroke: var(--bg-card);
+}
+
+.modal-plan-icon {
+  background: var(--accent);
+}
+
+.modal-plan-icon svg {
+  stroke: var(--bg-card);
+}
+
+.footer {
+  color: var(--text-muted);
+}
+
+.modal-overlay {
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+}
+
+[data-theme="dark"] .modal-overlay,
+[data-theme="midnight"] .modal-overlay {
+  background: rgba(0,0,0,0.7);
+}

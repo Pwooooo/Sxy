@@ -4,28 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SXY — Dashboard</title>
+  <script src="theme.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #fafafa; color: #111; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; }
     canvas#waves { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
     .page { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
     .nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; max-width: 1200px; margin: 0 auto; width: 100%; }
     .nav-logo { font-size: 24px; font-weight: 800; color: #111; text-decoration: none; letter-spacing: -1px; font-family: 'Arial Black', sans-serif; }
     .nav-links { display: flex; align-items: center; gap: 24px; }
-    .nav-link { color: #555; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: color 0.2s, transform 0.2s; }
-    .nav-link:hover { color: #111; transform: translateY(-2px); }
+    .nav-link { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: color 0.2s, transform 0.2s; }
+    .nav-link:hover { color: var(--text); transform: translateY(-2px); }
     .nav-link svg { width: 20px; height: 20px; }
 
     .dashboard { max-width: 900px; margin: 40px auto; padding: 0 20px; width: 100%; }
     .dash-header { margin-bottom: 40px; animation: fadeIn 0.5s ease-out; }
     .dash-title { font-size: 32px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 4px; }
-    .dash-sub { font-size: 14px; color: #888; }
+    .dash-sub { font-size: 14px; color: var(--text-secondary); }
 
     .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px; }
-    .stat { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 24px; animation: fadeIn 0.5s ease-out both; }
+    .stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; animation: fadeIn 0.5s ease-out both; }
     .stat:nth-child(2) { animation-delay: 0.05s; }
     .stat:nth-child(3) { animation-delay: 0.1s; }
-    .stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 8px; }
+    .stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; }
     .stat-value { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
     .stat-value.green { color: #22c55e; }
 
@@ -34,23 +35,24 @@
     .dash-section { margin-bottom: 32px; }
     .dash-section-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
 
-    .key-box { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; animation: fadeIn 0.5s ease-out 0.15s both; }
+    .key-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; animation: fadeIn 0.5s ease-out 0.15s both; }
     .key-info { display: flex; flex-direction: column; gap: 4px; }
-    .key-label { font-size: 12px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .key-label { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
     .key-value { font-size: 16px; font-weight: 600; font-family: 'SF Mono', Monaco, monospace; letter-spacing: 1px; }
-    .key-copy { padding: 8px 16px; background: #f3f3f3; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    .key-copy:hover { background: #e5e5e5; }
+    .key-copy { padding: 8px 16px; background: var(--bg-input); border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .key-copy:hover { background: var(--border); }
 
     .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .action-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 24px; text-decoration: none; color: #111; transition: transform 0.2s, box-shadow 0.2s; display: flex; align-items: center; gap: 16px; animation: fadeIn 0.5s ease-out 0.2s both; }
+    .action-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-decoration: none; color: var(--text); transition: transform 0.2s, box-shadow 0.2s; display: flex; align-items: center; gap: 16px; animation: fadeIn 0.5s ease-out 0.2s both; }
     .action-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
-    .action-icon { width: 44px; height: 44px; background: #f3f3f3; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .action-icon { width: 44px; height: 44px; background: var(--bg-input); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .action-icon svg { width: 20px; height: 20px; stroke: #111; }
     .action-title { font-size: 15px; font-weight: 700; }
-    .action-desc { font-size: 13px; color: #888; margin-top: 2px; }
+    .action-desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
 
-    .footer { text-align: center; padding: 40px 20px; color: #999; font-size: 13px; margin-top: auto; }
+    .footer { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 13px; margin-top: auto; }
   </style>
+  <link rel="stylesheet" href="theme.css">
 </head>
 <body>
   <canvas id="waves"></canvas>
@@ -191,13 +193,15 @@
     window.addEventListener('resize', resize); resize();
     function noise(x) { return Math.sin(x*1.2)*0.5 + Math.sin(x*2.3)*0.3 + Math.sin(x*3.7)*0.2; }
     function draw() {
+      const cs = getComputedStyle(document.documentElement);
+      const wc = cs.getPropertyValue('--wave-color').trim();
       ctx.clearRect(0, 0, w, h);
       const lines = 30, spacing = h / lines;
       for (let i = 0; i < lines; i++) {
         ctx.beginPath();
         const yBase = i * spacing;
         const alpha = 0.15 + (Math.abs(i - lines/2)/lines)*0.2;
-        ctx.strokeStyle = `rgba(0,0,0,${alpha})`; ctx.lineWidth = 1.2;
+        ctx.strokeStyle = `rgba(${wc},${alpha})`; ctx.lineWidth = 1.2;
         for (let x = 0; x <= w; x += 3) {
           const xN = x/w;
           const y = yBase + Math.sin(xN*4+time*0.3+i*0.4)*30 + Math.sin(xN*6-time*0.2+i*0.6)*20 + noise(xN*3+time*0.1+i*0.3)*25;
