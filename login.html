@@ -116,6 +116,10 @@
   </div>
 
   <script>
+    if (localStorage.getItem('sxy_token')) {
+      window.location.href = 'dashboard.html';
+    }
+
     async function doLogin() {
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;

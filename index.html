@@ -131,7 +131,7 @@
     <section class="hero">
       <h1 id="title">SXY</h1>
       <div style="margin-top: 40px;">
-        <a href="signup.html" style="display: inline-block; padding: 14px 40px; background: #111; color: #fff; border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none; transition: background 0.2s, transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">Get Started</a>
+        <a id="heroBtn" href="signup.html" style="display: inline-block; padding: 14px 40px; background: #111; color: #fff; border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none; transition: background 0.2s, transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">Get Started</a>
       </div>
     </section>
 
@@ -198,6 +198,11 @@
       });
     }
     animateText('title', 0.1);
+
+    if (localStorage.getItem('sxy_token')) {
+      document.getElementById('heroBtn').textContent = 'Dashboard';
+      document.getElementById('heroBtn').href = 'dashboard.html';
+    }
   </script>
 </body>
 </html>
