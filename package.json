@@ -1,8 +1,9 @@
 {
   "name": "sxy",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "dependencies": {
-    "ioredis": "^5.4.0"
+    "@vercel/kv": "^3.0.0"
   }
 }

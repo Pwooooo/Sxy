@@ -1,7 +1,5 @@
-import Redis from 'ioredis';
+import { kv } from '@vercel/kv';
 import crypto from 'crypto';
-
-const redis = new Redis(process.env.REDIS_URL);
 
 function verifyPassword(password, stored) {
   const [salt, hash] = stored.split(':');
@@ -22,7 +20,7 @@ export default async function handler(req, res) {
 
   const emailKey = email.toLowerCase().trim();
 
-  const raw = await redis.get('user:' + emailKey);
+  const raw = await kv.get('user:' + emailKey);
   if (!raw) {
     return res.status(401).json({ error: 'Invalid email or password' });
   }
@@ -34,8 +32,7 @@ export default async function handler(req, res) {
   }
 
   const token = crypto.randomBytes(32).toString('hex');
-  await redis.set('session:' + token, emailKey);
-  await redis.expire('session:' + token, 60 * 60 * 24 * 30);
+  await kv.set('session:' + token, emailKey, { ex: 60 * 60 * 24 * 30 });
 
   return res.status(200).json({
     success: true,

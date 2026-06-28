@@ -1,7 +1,5 @@
-import Redis from 'ioredis';
+import { kv } from '@vercel/kv';
 import crypto from 'crypto';
-
-const redis = new Redis(process.env.REDIS_URL);
 
 function hashPassword(password) {
   const salt = crypto.randomBytes(16).toString('hex');
@@ -26,7 +24,7 @@ export default async function handler(req, res) {
 
   const emailKey = email.toLowerCase().trim();
 
-  const existing = await redis.get('user:' + emailKey);
+  const existing = await kv.get('user:' + emailKey);
   if (existing) {
     return res.status(409).json({ error: 'An account with this email already exists' });
   }
@@ -40,11 +38,10 @@ export default async function handler(req, res) {
     createdAt: new Date().toISOString()
   };
 
-  await redis.set('user:' + emailKey, JSON.stringify(user));
+  await kv.set('user:' + emailKey, JSON.stringify(user));
 
   const token = crypto.randomBytes(32).toString('hex');
-  await redis.set('session:' + token, emailKey);
-  await redis.expire('session:' + token, 60 * 60 * 24 * 30);
+  await kv.set('session:' + token, emailKey, { ex: 60 * 60 * 24 * 30 });
 
   return res.status(200).json({
     success: true,
