@@ -16,55 +16,81 @@
     .nav-link:hover { color: #111; transform: translateY(-2px); }
     .nav-link svg { width: 20px; height: 20px; }
 
-    .purchase { max-width: 480px; margin: 40px auto; padding: 0 20px; width: 100%; }
-    .plan-toggle { display: flex; background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 4px; margin-bottom: 24px; }
-    .plan-toggle-btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; background: transparent; color: #888; }
-    .plan-toggle-btn.active { background: #111; color: #fff; }
+    .purchase { max-width: 900px; margin: 60px auto; padding: 0 20px; width: 100%; }
+    .purchase-title { text-align: center; font-size: 36px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 8px; }
+    .purchase-sub { text-align: center; font-size: 15px; color: #888; margin-bottom: 48px; }
 
-    .payment-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 16px; overflow: hidden; animation: fadeIn 0.4s ease-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .plan-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 16px; padding: 40px 32px; text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; position: relative; overflow: hidden; }
+    .plan-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); border-color: #111; }
+    .plan-badge { position: absolute; top: 16px; right: 16px; background: #111; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .plan-icon { width: 56px; height: 56px; background: #f3f3f3; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; transition: background 0.3s; }
+    .plan-card:hover .plan-icon { background: #111; }
+    .plan-icon svg { width: 28px; height: 28px; stroke: #111; fill: none; transition: stroke 0.3s; }
+    .plan-card:hover .plan-icon svg { stroke: #fff; }
+    .plan-name { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
+    .plan-price { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+    .plan-price span { font-size: 16px; font-weight: 500; color: #888; }
+    .plan-period { font-size: 13px; color: #999; margin-bottom: 24px; }
+    .plan-features { list-style: none; text-align: left; margin-bottom: 32px; }
+    .plan-features li { font-size: 14px; color: #555; padding: 8px 0; border-bottom: 1px solid #f5f5f5; display: flex; align-items: center; gap: 10px; }
+    .plan-features li:last-child { border-bottom: none; }
+    .plan-features li::before { content: '✓'; font-weight: 700; color: #22c55e; font-size: 13px; }
+    .plan-btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.2s; letter-spacing: 0.3px; }
+    .plan-btn-primary { background: #111; color: #fff; }
+    .plan-btn-primary:hover { background: #333; transform: translateY(-1px); }
+    .plan-btn-outline { background: transparent; color: #111; border: 2px solid #ddd; }
+    .plan-btn-outline:hover { border-color: #111; background: #f9f9f9; }
 
-    .card-header { padding: 24px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 16px; }
-    .card-icon { width: 48px; height: 48px; background: #111; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .card-icon svg { width: 24px; height: 24px; stroke: #fff; fill: none; }
-    .card-info h2 { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
-    .card-info p { font-size: 13px; color: #888; margin-top: 2px; }
-    .card-price { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
-    .card-price-num { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
-    .card-price-label { font-size: 13px; color: #888; }
+    /* Modal */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+    .modal-overlay.show { display: flex; }
+    .modal { background: #fff; border-radius: 20px; width: 480px; max-width: 95vw; max-height: 90vh; overflow-y: auto; animation: modalIn 0.3s ease-out; }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-    .steps { padding: 8px 0; }
+    .modal-header { padding: 24px 24px 0; display: flex; align-items: center; justify-content: space-between; }
+    .modal-header h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+    .modal-close { width: 32px; height: 32px; background: #f3f3f3; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; color: #555; }
+    .modal-close:hover { background: #e5e5e5; }
 
-    .step { padding: 20px 24px; border-bottom: 1px solid #f0f0f0; transition: background 0.2s; }
-    .step:last-child { border-bottom: none; }
-    .step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .step-num { width: 28px; height: 28px; background: #111; color: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
-    .step-num.done { background: #22c55e; }
-    .step-title { font-size: 14px; font-weight: 700; }
-    .step-desc { font-size: 13px; color: #888; margin-bottom: 10px; padding-left: 40px; }
+    .modal-plan { padding: 20px 24px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 16px; }
+    .modal-plan-icon { width: 44px; height: 44px; background: #111; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .modal-plan-icon svg { width: 22px; height: 22px; stroke: #fff; fill: none; }
+    .modal-plan-info h3 { font-size: 15px; font-weight: 700; }
+    .modal-plan-info p { font-size: 13px; color: #888; margin-top: 1px; }
+    .modal-plan-price { font-size: 18px; font-weight: 800; margin-left: auto; letter-spacing: -0.5px; }
 
-    .step-input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; background: #fafafa; margin-left: 40px; width: calc(100% - 40px); }
-    .step-input:focus { border-color: #111; }
-    .step-input::placeholder { color: #bbb; }
+    .modal-steps { padding: 8px 0; }
+    .modal-step { padding: 16px 24px; border-bottom: 1px solid #f0f0f0; transition: opacity 0.3s; }
+    .modal-step:last-child { border-bottom: none; }
+    .modal-step.locked { opacity: 0.35; pointer-events: none; }
+    .modal-step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .modal-step-num { width: 26px; height: 26px; background: #111; color: #fff; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+    .modal-step-num.done { background: #22c55e; }
+    .modal-step-title { font-size: 14px; font-weight: 700; }
+    .modal-step-desc { font-size: 13px; color: #888; margin-bottom: 10px; padding-left: 36px; }
+    .modal-step-input { width: calc(100% - 36px); margin-left: 36px; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; background: #fafafa; }
+    .modal-step-input:focus { border-color: #111; }
+    .modal-step-input::placeholder { color: #bbb; }
+    .modal-step-btn { margin-left: 36px; padding: 8px 16px; background: #111; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.2s; text-decoration: none; display: inline-block; }
+    .modal-step-btn:hover { background: #333; transform: translateY(-1px); }
+    .modal-step-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+    .modal-step-status { margin-left: 36px; font-size: 13px; font-weight: 600; }
+    .modal-step-status.loading { color: #888; }
+    .modal-step-status.success { color: #22c55e; }
+    .modal-step-status.error { color: #ef4444; }
 
-    .step-btn { margin-left: 40px; padding: 8px 16px; background: #111; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.2s; }
-    .step-btn:hover { background: #333; transform: translateY(-1px); }
-    .step-btn:active { transform: scale(0.98); }
-    .step-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-
-    .step-link { margin-left: 40px; color: #111; font-size: 13px; font-weight: 600; text-decoration: underline; cursor: pointer; }
-    .step-link:hover { color: #333; }
-
-    .step-status { margin-left: 40px; font-size: 13px; font-weight: 600; }
-    .step-status.loading { color: #888; }
-    .step-status.success { color: #22c55e; }
-    .step-status.error { color: #ef4444; }
-
-    .continue-btn { display: block; width: 100%; padding: 14px; background: #111; color: #fff; border: none; border-radius: 0 0 16px 16px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; letter-spacing: 0.5px; }
-    .continue-btn:hover { background: #333; }
-    .continue-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .modal-footer { padding: 0 24px 24px; }
+    .modal-continue { display: block; width: 100%; padding: 14px; background: #111; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; letter-spacing: 0.3px; }
+    .modal-continue:hover { background: #333; }
+    .modal-continue:disabled { background: #ccc; cursor: not-allowed; }
 
     .footer { text-align: center; padding: 40px 20px; color: #999; font-size: 13px; margin-top: auto; }
+
+    @media (max-width: 640px) {
+      .plans { grid-template-columns: 1fr; }
+      .purchase-title { font-size: 28px; }
+    }
   </style>
 </head>
 <body>
@@ -83,205 +109,249 @@
     </nav>
 
     <div class="purchase">
-      <div class="plan-toggle">
-        <button class="plan-toggle-btn active" onclick="switchPlan('basic')">Basic — R$ 2,000</button>
-        <button class="plan-toggle-btn" onclick="switchPlan('premium')">Premium — R$ 4,400</button>
-      </div>
+      <div class="purchase-title">Choose Your Plan</div>
+      <div class="purchase-sub">Get lifetime access to SXY</div>
 
-      <div class="payment-card" id="paymentCard">
-        <div class="card-header">
-          <div class="card-icon">
+      <div class="plans">
+        <div class="plan-card" onclick="openModal('basic')">
+          <div class="plan-icon">
             <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           </div>
-          <div class="card-info">
-            <h2 id="planTitle">SXY Basic</h2>
-            <p id="planDesc">Lifetime access to SXY Basic</p>
-            <div class="card-price">
-              <span class="card-price-num" id="planPrice">R$ 2,000</span>
-              <span class="card-price-label">lifetime</span>
-            </div>
-          </div>
+          <div class="plan-name">Basic</div>
+          <div class="plan-price">R$ 2,000 <span></span></div>
+          <div class="plan-period">one-time · lifetime</div>
+          <ul class="plan-features">
+            <li>Core features</li>
+            <li>Priority support</li>
+            <li>Regular updates</li>
+          </ul>
+          <button class="plan-btn plan-btn-outline">Get Started</button>
         </div>
 
-        <div class="steps">
-          <div class="step" id="step1">
-            <div class="step-header">
-              <div class="step-num" id="step1Num">1</div>
-              <div class="step-title">Enter Your Roblox Username</div>
-            </div>
-            <div class="step-desc">We'll verify your account</div>
-            <input type="text" class="step-input" id="robloxUsername" placeholder="Your Roblox Username">
-            <button class="step-btn" id="step1Btn" onclick="verifyUsername()">Verify</button>
-            <div class="step-status" id="step1Status"></div>
+        <div class="plan-card" onclick="openModal('premium')">
+          <div class="plan-badge">Popular</div>
+          <div class="plan-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
           </div>
-
-          <div class="step" id="step2" style="opacity: 0.4; pointer-events: none;">
-            <div class="step-header">
-              <div class="step-num" id="step2Num">2</div>
-              <div class="step-title">Purchase the Gamepass</div>
-            </div>
-            <div class="step-desc">Buy the gamepass on Roblox</div>
-            <a id="gamepassLink" href="#" class="step-btn" target="_blank" style="text-decoration: none; display: inline-block;">Buy Gamepass</a>
-          </div>
-
-          <div class="step" id="step3" style="opacity: 0.4; pointer-events: none;">
-            <div class="step-header">
-              <div class="step-num" id="step3Num">3</div>
-              <div class="step-title">Verify Ownership</div>
-            </div>
-            <div class="step-desc">Click below after purchasing</div>
-            <button class="step-btn" id="step3Btn" onclick="verifyOwnership()">Verify Purchase</button>
-            <div class="step-status" id="step3Status"></div>
-          </div>
-
-          <div class="step" id="step4" style="opacity: 0.4; pointer-events: none;">
-            <div class="step-header">
-              <div class="step-num" id="step4Num">4</div>
-              <div class="step-title">Enter Your Email</div>
-            </div>
-            <div class="step-desc">We'll send your license key here</div>
-            <input type="email" class="step-input" id="userEmail" placeholder="you@example.com">
-          </div>
+          <div class="plan-name">Premium</div>
+          <div class="plan-price">R$ 4,400 <span></span></div>
+          <div class="plan-period">one-time · lifetime</div>
+          <ul class="plan-features">
+            <li>Everything in Basic</li>
+            <li>Advanced features</li>
+            <li>Early access</li>
+            <li>Exclusive content</li>
+          </ul>
+          <button class="plan-btn plan-btn-primary">Get Started</button>
         </div>
-
-        <button class="continue-btn" id="continueBtn" disabled onclick="complete()">→ CONTINUE</button>
       </div>
     </div>
 
     <footer class="footer">© 2026 SXY</footer>
   </div>
 
+  <!-- Purchase Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Purchase SXY</h2>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+
+      <div class="modal-plan">
+        <div class="modal-plan-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="modal-plan-info">
+          <h3 id="modalPlanName">SXY Basic</h3>
+          <p>Lifetime access</p>
+        </div>
+        <div class="modal-plan-price" id="modalPlanPrice">R$ 2,000</div>
+      </div>
+
+      <div class="modal-steps">
+        <div class="modal-step" id="mStep1">
+          <div class="modal-step-header">
+            <div class="modal-step-num" id="mStep1Num">1</div>
+            <div class="modal-step-title">Enter Your Roblox Username</div>
+          </div>
+          <div class="modal-step-desc">We'll verify your account</div>
+          <input type="text" class="modal-step-input" id="mRobloxUser" placeholder="Your Roblox Username">
+          <button class="modal-step-btn" id="mStep1Btn" onclick="mVerifyUsername()">Verify</button>
+          <div class="modal-step-status" id="mStep1Status"></div>
+        </div>
+
+        <div class="modal-step locked" id="mStep2">
+          <div class="modal-step-header">
+            <div class="modal-step-num" id="mStep2Num">2</div>
+            <div class="modal-step-title">Purchase the Gamepass</div>
+          </div>
+          <div class="modal-step-desc">Buy the gamepass on Roblox</div>
+          <a id="mGamepassLink" href="#" class="modal-step-btn" target="_blank">Buy Gamepass →</a>
+        </div>
+
+        <div class="modal-step locked" id="mStep3">
+          <div class="modal-step-header">
+            <div class="modal-step-num" id="mStep3Num">3</div>
+            <div class="modal-step-title">Verify Ownership</div>
+          </div>
+          <div class="modal-step-desc">Click below after purchasing</div>
+          <button class="modal-step-btn" id="mStep3Btn" onclick="mVerifyOwnership()">Verify Purchase</button>
+          <div class="modal-step-status" id="mStep3Status"></div>
+        </div>
+
+        <div class="modal-step locked" id="mStep4">
+          <div class="modal-step-header">
+            <div class="modal-step-num" id="mStep4Num">4</div>
+            <div class="modal-step-title">Enter Your Email</div>
+          </div>
+          <div class="modal-step-desc">We'll send your license key here</div>
+          <input type="email" class="modal-step-input" id="mEmail" placeholder="you@example.com" oninput="mCheckContinue()">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="modal-continue" id="mContinueBtn" disabled onclick="mComplete()">→ CONTINUE</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const plans = {
-      basic: { title: 'SXY Basic', desc: 'Lifetime access to SXY Basic', price: 'R$ 2,000', gamepassId: '1890222051', gamepassUrl: 'https://www.roblox.com/game-pass/1890222051/Basic' },
-      premium: { title: 'SXY Premium', desc: 'Lifetime access to SXY Premium', price: 'R$ 4,400', gamepassId: '1893671635', gamepassUrl: 'https://www.roblox.com/game-pass/1893671635/Premium' }
+      basic: { name: 'SXY Basic', price: 'R$ 2,000', gamepassId: '1890222051', gamepassUrl: 'https://www.roblox.com/game-pass/1890222051/Basic' },
+      premium: { name: 'SXY Premium', price: 'R$ 4,400', gamepassId: '1893671635', gamepassUrl: 'https://www.roblox.com/game-pass/1893671635/Premium' }
     };
-    let currentPlan = 'basic';
-    let userId = null;
-    let step1Done = false;
-    let step3Done = false;
+    let mCurrentPlan = 'basic';
+    let mUserId = null;
+    let mStep1Done = false;
+    let mStep3Done = false;
 
-    function switchPlan(plan) {
-      currentPlan = plan;
+    function openModal(plan) {
+      mCurrentPlan = plan;
       const p = plans[plan];
-      document.getElementById('planTitle').textContent = p.title;
-      document.getElementById('planDesc').textContent = p.desc;
-      document.getElementById('planPrice').textContent = p.price;
-      document.getElementById('gamepassLink').href = p.gamepassUrl;
-      document.querySelectorAll('.plan-toggle-btn').forEach((btn, i) => {
-        btn.classList.toggle('active', (i === 0 && plan === 'basic') || (i === 1 && plan === 'premium'));
+      document.getElementById('modalTitle').textContent = 'Purchase ' + p.name;
+      document.getElementById('modalPlanName').textContent = p.name;
+      document.getElementById('modalPlanPrice').textContent = p.price;
+      document.getElementById('mGamepassLink').href = p.gamepassUrl;
+
+      // Reset steps
+      mUserId = null; mStep1Done = false; mStep3Done = false;
+      document.getElementById('mRobloxUser').value = '';
+      document.getElementById('mEmail').value = '';
+      document.getElementById('mStep1Num').textContent = '1';
+      document.getElementById('mStep1Num').className = 'modal-step-num';
+      document.getElementById('mStep2Num').textContent = '2';
+      document.getElementById('mStep2Num').className = 'modal-step-num';
+      document.getElementById('mStep3Num').textContent = '3';
+      document.getElementById('mStep3Num').className = 'modal-step-num';
+      document.getElementById('mStep4Num').textContent = '4';
+      document.getElementById('mStep4Num').className = 'modal-step-num';
+      document.getElementById('mStep1Status').textContent = '';
+      document.getElementById('mStep3Status').textContent = '';
+      document.getElementById('mStep1Btn').textContent = 'Verify';
+      document.getElementById('mStep1Btn').disabled = false;
+      document.getElementById('mStep3Btn').textContent = 'Verify Purchase';
+      document.getElementById('mStep3Btn').disabled = false;
+      document.getElementById('mContinueBtn').disabled = true;
+      ['mStep2','mStep3','mStep4'].forEach(id => {
+        document.getElementById(id).className = 'modal-step locked';
       });
+
+      document.getElementById('modalOverlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
     }
 
-    async function verifyUsername() {
-      const username = document.getElementById('robloxUsername').value.trim();
-      if (!username) return;
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('show');
+      document.body.style.overflow = '';
+    }
 
-      const btn = document.getElementById('step1Btn');
-      const status = document.getElementById('step1Status');
-      btn.disabled = true;
-      btn.textContent = 'Checking...';
-      status.textContent = '';
-      status.className = 'step-status loading';
+    async function mVerifyUsername() {
+      const username = document.getElementById('mRobloxUser').value.trim();
+      if (!username) return;
+      const btn = document.getElementById('mStep1Btn');
+      const status = document.getElementById('mStep1Status');
+      btn.disabled = true; btn.textContent = 'Checking...';
+      status.textContent = ''; status.className = 'modal-step-status loading';
 
       try {
         const res = await fetch('https://users.roblox.com/v1/usernames/users', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ usernames: [username] })
         });
         const data = await res.json();
-
         if (data.data && data.data.length > 0) {
-          userId = data.data[0].id;
-          status.textContent = '✓ Found: ' + data.data[0].name + ' (ID: ' + userId + ')';
-          status.className = 'step-status success';
-          document.getElementById('step1Num').classList.add('done');
-          document.getElementById('step1Num').textContent = '✓';
-          step1Done = true;
-
-          document.getElementById('step2').style.opacity = '1';
-          document.getElementById('step2').style.pointerEvents = 'auto';
-          document.getElementById('step3').style.opacity = '1';
-          document.getElementById('step3').style.pointerEvents = 'auto';
-          document.getElementById('step4').style.opacity = '1';
-          document.getElementById('step4').style.pointerEvents = 'auto';
+          mUserId = data.data[0].id;
+          status.textContent = '✓ Found: ' + data.data[0].name;
+          status.className = 'modal-step-status success';
+          document.getElementById('mStep1Num').classList.add('done');
+          document.getElementById('mStep1Num').textContent = '✓';
+          mStep1Done = true;
+          ['mStep2','mStep3','mStep4'].forEach(id => {
+            document.getElementById(id).classList.remove('locked');
+          });
         } else {
           status.textContent = '✕ User not found';
-          status.className = 'step-status error';
+          status.className = 'modal-step-status error';
         }
       } catch (e) {
         status.textContent = '✕ Error checking username';
-        status.className = 'step-status error';
+        status.className = 'modal-step-status error';
       }
-
-      btn.disabled = false;
-      btn.textContent = 'Verify';
+      btn.disabled = false; btn.textContent = 'Verify';
     }
 
-    async function verifyOwnership() {
-      if (!userId) return;
-
-      const btn = document.getElementById('step3Btn');
-      const status = document.getElementById('step3Status');
-      btn.disabled = true;
-      btn.textContent = 'Checking...';
-      status.textContent = '';
-      status.className = 'step-status loading';
+    async function mVerifyOwnership() {
+      if (!mUserId) return;
+      const btn = document.getElementById('mStep3Btn');
+      const status = document.getElementById('mStep3Status');
+      btn.disabled = true; btn.textContent = 'Checking...';
+      status.textContent = ''; status.className = 'modal-step-status loading';
 
       try {
-        const gpId = plans[currentPlan].gamepassId;
-        const res = await fetch(`https://inventory.roblox.com/v1/users/${userId}/items/Pass/${gpId}`, {
-          method: 'GET'
-        });
-
+        const gpId = plans[mCurrentPlan].gamepassId;
+        const res = await fetch(`https://inventory.roblox.com/v1/users/${mUserId}/items/Pass/${gpId}`);
         if (res.ok) {
           const data = await res.json();
           if (data.data && data.data.length > 0) {
             status.textContent = '✓ Gamepass verified!';
-            status.className = 'step-status success';
-            document.getElementById('step3Num').classList.add('done');
-            document.getElementById('step3Num').textContent = '✓';
-            step3Done = true;
-            checkContinue();
+            status.className = 'modal-step-status success';
+            document.getElementById('mStep3Num').classList.add('done');
+            document.getElementById('mStep3Num').textContent = '✓';
+            mStep3Done = true;
+            mCheckContinue();
           } else {
             status.textContent = '✕ You don\'t own this gamepass yet';
-            status.className = 'step-status error';
+            status.className = 'modal-step-status error';
           }
         } else {
           status.textContent = '✕ Could not verify — make sure the gamepass is public';
-          status.className = 'step-status error';
+          status.className = 'modal-step-status error';
         }
       } catch (e) {
         status.textContent = '✕ Error verifying purchase';
-        status.className = 'step-status error';
+        status.className = 'modal-step-status error';
       }
-
-      btn.disabled = false;
-      btn.textContent = 'Verify Purchase';
+      btn.disabled = false; btn.textContent = 'Verify Purchase';
     }
 
-    function checkContinue() {
-      const email = document.getElementById('userEmail').value.trim();
-      const btn = document.getElementById('continueBtn');
-      btn.disabled = !(step1Done && step3Done && email.includes('@'));
+    function mCheckContinue() {
+      const email = document.getElementById('mEmail').value.trim();
+      document.getElementById('mContinueBtn').disabled = !(mStep1Done && mStep3Done && email.includes('@'));
     }
 
-    document.getElementById('userEmail').addEventListener('input', checkContinue);
-
-    function complete() {
-      const email = document.getElementById('userEmail').value.trim();
-      if (!email || !step1Done || !step3Done) return;
-
+    function mComplete() {
+      const email = document.getElementById('mEmail').value.trim();
+      if (!email || !mStep1Done || !mStep3Done) return;
       const key = 'SXY-' + Array.from({length: 4}, () => Math.random().toString(36).substring(2,6).toUpperCase()).join('-');
       localStorage.setItem('sxy_license', key);
-      localStorage.setItem('sxy_user', document.getElementById('robloxUsername').value.trim());
-      localStorage.setItem('sxy_plan', currentPlan);
+      localStorage.setItem('sxy_user', document.getElementById('mRobloxUser').value.trim());
+      localStorage.setItem('sxy_plan', mCurrentPlan);
       localStorage.setItem('sxy_email', email);
       window.location.href = 'dashboard.html';
     }
 
-    switchPlan('basic');
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
   </script>
 
   <script>
