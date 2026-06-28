@@ -2,6 +2,8 @@ import crypto from 'crypto';
 
 const REDIS_URL = process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const FROM_EMAIL = process.env.FROM_EMAIL || 'keys@getsxy.vercel.app';
 
 async function redisCommand(...args) {
   const res = await fetch(REDIS_URL, {
@@ -13,31 +15,16 @@ async function redisCommand(...args) {
   return data.result;
 }
 
-async function isRobloxUsed(robloxUserId) {
-  const direct = await redisCommand('GET', 'roblox-used:' + robloxUserId);
-  if (direct) return direct;
-
-  const cached = await redisCommand('GET', 'roblox-cache-checked');
-  if (!cached) {
-    let cursor = '0';
-    do {
-      const [nextCursor, keys] = await redisCommand('SCAN', cursor, 'MATCH', 'user:*', 'COUNT', '100');
-      cursor = nextCursor;
-      if (keys) {
-        for (const k of keys) {
-          const raw = await redisCommand('GET', k);
-          if (!raw) continue;
-          const u = typeof raw === 'string' ? JSON.parse(raw) : raw;
-          if (u.robloxUserId) {
-            await redisCommand('SET', 'roblox-used:' + u.robloxUserId, u.email || k.replace('user:', ''));
-          }
-        }
-      }
-    } while (cursor !== '0');
-    await redisCommand('SET', 'roblox-cache-checked', '1', 'EX', 86400);
-  }
-
-  return await redisCommand('GET', 'roblox-used:' + robloxUserId);
+async function sendEmail(to, subject, html) {
+  if (!RESEND_API_KEY) return false;
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: FROM_EMAIL, to, subject, html }),
+    });
+    return res.ok;
+  } catch { return false; }
 }
 
 export default async function handler(req, res) {
@@ -49,19 +36,22 @@ export default async function handler(req, res) {
   }
 
   const emailKey = email.toLowerCase().trim();
+  const uid = String(robloxUserId);
 
-  const existingRoblox = await isRobloxUsed(robloxUserId);
-  if (existingRoblox && existingRoblox !== emailKey) {
-    return res.status(400).json({ error: 'This Roblox account has already been used to claim a key.' });
-  }
-
-  if (existingRoblox && existingRoblox === emailKey) {
-    const raw = await redisCommand('GET', 'user:' + emailKey);
-    const user = raw ? (typeof raw === 'string' ? JSON.parse(raw) : raw) : null;
-    if (user && user.licenseKey) {
-      const sessionToken = crypto.randomBytes(32).toString('hex');
-      await redisCommand('SET', 'session:' + sessionToken, emailKey, 'EX', 2592000);
-      return res.status(200).json({ success: true, licenseKey: user.licenseKey, sessionToken, plan: user.plan || plan });
+  const alreadyUsed = await redisCommand('SISMEMBER', 'roblox-used-set', uid);
+  if (alreadyUsed) {
+    const owner = await redisCommand('GET', 'roblox-used:' + uid);
+    if (owner && owner !== emailKey) {
+      return res.status(400).json({ error: 'This Roblox account has already been used to claim a key.' });
+    }
+    if (owner && owner === emailKey) {
+      const raw = await redisCommand('GET', 'user:' + emailKey);
+      const user = raw ? (typeof raw === 'string' ? JSON.parse(raw) : raw) : null;
+      if (user && user.licenseKey) {
+        const sessionToken = crypto.randomBytes(32).toString('hex');
+        await redisCommand('SET', 'session:' + sessionToken, emailKey, 'EX', 2592000);
+        return res.status(200).json({ success: true, licenseKey: user.licenseKey, sessionToken, plan: user.plan || plan });
+      }
     }
   }
 
@@ -79,12 +69,26 @@ export default async function handler(req, res) {
   user.plan = plan;
   user.licenseKey = key;
   user.robloxUser = robloxUser;
-  user.robloxUserId = robloxUserId;
+  user.robloxUserId = uid;
   user.purchasedAt = new Date().toISOString();
 
   await redisCommand('SET', 'user:' + emailKey, JSON.stringify(user));
   await redisCommand('SET', 'session:' + sessionToken, emailKey, 'EX', 2592000);
-  await redisCommand('SET', 'roblox-used:' + robloxUserId, emailKey);
+  await redisCommand('SADD', 'roblox-used-set', uid);
+  await redisCommand('SET', 'roblox-used:' + uid, emailKey);
 
-  return res.status(200).json({ success: true, licenseKey: key, sessionToken, plan });
+  const planName = plan === 'premium' ? 'SXY Premium' : 'SXY Basic';
+  const emailSent = await sendEmail(emailKey, 'Your SXY License Key', `
+    <div style="font-family:system-ui,sans-serif;max-width:480px;margin:0 auto;padding:32px;">
+      <h2 style="color:#a855f7;">Welcome to ${planName}</h2>
+      <p>Thanks for your purchase, <b>${robloxUser}</b>!</p>
+      <div style="background:#1a1a2e;border:1px solid #333;border-radius:8px;padding:16px;margin:20px 0;">
+        <p style="color:#888;margin:0 0 4px;font-size:12px;">YOUR LICENSE KEY</p>
+        <p style="color:#a855f7;font-size:20px;font-weight:bold;margin:0;letter-spacing:1px;">${key}</p>
+      </div>
+      <p style="color:#666;font-size:13px;">Use this key on the SXY dashboard to activate your access.</p>
+    </div>
+  `);
+
+  return res.status(200).json({ success: true, licenseKey: key, sessionToken, plan, emailSent });
 }
