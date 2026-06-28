@@ -70,17 +70,17 @@
     <div class="dashboard">
       <div class="dash-header">
         <div class="dash-title">Dashboard</div>
-        <div class="dash-sub">Welcome back! Here's your account overview.</div>
+        <div class="dash-sub" id="dashSub">Welcome back! Here's your account overview.</div>
       </div>
 
-      <div class="dash-stats">
+      <div class="dash-stats" id="dashStats">
         <div class="stat">
           <div class="stat-label">Status</div>
           <div class="stat-value green">Active</div>
         </div>
         <div class="stat">
           <div class="stat-label">Plan</div>
-          <div class="stat-value">Premium</div>
+          <div class="stat-value" id="dashPlan">—</div>
         </div>
         <div class="stat">
           <div class="stat-label">Valid Until</div>
@@ -88,14 +88,25 @@
         </div>
       </div>
 
-      <div class="dash-section">
+      <div class="dash-section" id="dashKeySection">
         <div class="dash-section-title">Your License Key</div>
         <div class="key-box">
           <div class="key-info">
             <div class="key-label">License Key</div>
-            <div class="key-value">SXY-XXXX-XXXX-XXXX</div>
+            <div class="key-value" id="dashKey">—</div>
           </div>
-          <button class="key-copy" onclick="navigator.clipboard.writeText('SXY-XXXX-XXXX-XXXX').then(()=>this.textContent='Copied!')">Copy</button>
+          <button class="key-copy" id="dashCopy" onclick="copyKey()">Copy</button>
+        </div>
+      </div>
+
+      <div class="dash-section" id="dashNoKey" style="display:none;">
+        <div class="dash-section-title">Get Started</div>
+        <div class="key-box" style="justify-content: center; text-align: center;">
+          <div>
+            <div style="font-size:15px; font-weight:600; margin-bottom:8px;">No license key yet</div>
+            <div style="font-size:13px; color:#888; margin-bottom:12px;">Purchase a plan to get your license key</div>
+            <a href="purchase.html" style="display:inline-block; padding:8px 20px; background:#111; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:600;">Get Started →</a>
+          </div>
         </div>
       </div>
 
@@ -146,6 +157,30 @@
   </div>
 
   <script>
+    const license = localStorage.getItem('sxy_license');
+    const user = localStorage.getItem('sxy_user');
+    const plan = localStorage.getItem('sxy_plan');
+    const email = localStorage.getItem('sxy_email');
+
+    if (license && plan) {
+      document.getElementById('dashSub').textContent = 'Welcome, ' + (user || 'User') + '! Here\'s your account overview.';
+      document.getElementById('dashPlan').textContent = plan === 'basic' ? 'Basic' : 'Premium';
+      document.getElementById('dashKey').textContent = license;
+      document.getElementById('dashKeySection').style.display = '';
+      document.getElementById('dashNoKey').style.display = 'none';
+    } else {
+      document.getElementById('dashStats').style.display = 'none';
+      document.getElementById('dashKeySection').style.display = 'none';
+      document.getElementById('dashNoKey').style.display = '';
+    }
+
+    function copyKey() {
+      navigator.clipboard.writeText(license || '').then(() => {
+        document.getElementById('dashCopy').textContent = 'Copied!';
+        setTimeout(() => document.getElementById('dashCopy').textContent = 'Copy', 1500);
+      });
+    }
+
     const canvas = document.getElementById('waves');
     const ctx = canvas.getContext('2d');
     let w, h, time = 0;
