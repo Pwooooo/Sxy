@@ -264,13 +264,10 @@
         <div class="modal-step locked" id="mStep3">
           <div class="modal-step-header">
             <div class="modal-step-num" id="mStep3Num">3</div>
-            <div class="modal-step-title">Confirm Purchase</div>
+            <div class="modal-step-title">Verify Ownership</div>
           </div>
-          <div class="modal-step-desc">Confirm you've purchased the gamepass</div>
-          <label style="margin-left:36px; display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px; color:var(--text-secondary);">
-            <input type="checkbox" id="mConfirmCheck" onchange="mCheckConfirm()" style="width:16px; height:16px; accent-color:var(--accent);">
-            I have purchased the gamepass
-          </label>
+          <div class="modal-step-desc">Click below after purchasing</div>
+          <button class="modal-step-btn" id="mStep3Btn" onclick="mVerifyOwnership()">Verify Purchase</button>
           <div class="modal-step-status" id="mStep3Status"></div>
         </div>
 
@@ -324,7 +321,8 @@
       document.getElementById('mStep3Status').textContent = '';
       document.getElementById('mStep1Btn').textContent = 'Verify';
       document.getElementById('mStep1Btn').disabled = false;
-      document.getElementById('mConfirmCheck').checked = false;
+      document.getElementById('mStep3Btn').textContent = 'Verify Purchase';
+      document.getElementById('mStep3Btn').disabled = false;
       document.getElementById('mContinueBtn').disabled = true;
       ['mStep2','mStep3','mStep4'].forEach(id => {
         document.getElementById(id).className = 'modal-step locked';
@@ -374,17 +372,49 @@
       btn.disabled = false; btn.textContent = 'Verify';
     }
 
-    function mCheckConfirm() {
-      const checked = document.getElementById('mConfirmCheck').checked;
-      if (checked) {
-        document.getElementById('mStep3Num').classList.add('done');
-        document.getElementById('mStep3Num').textContent = '✓';
-        mStep3Done = true;
-      } else {
-        document.getElementById('mStep3Num').classList.remove('done');
-        document.getElementById('mStep3Num').textContent = '3';
-        mStep3Done = false;
+    async function mVerifyOwnership() {
+      if (!mUserId) return;
+      const btn = document.getElementById('mStep3Btn');
+      const status = document.getElementById('mStep3Status');
+      btn.disabled = true; btn.textContent = 'Checking...';
+      status.textContent = ''; status.className = 'modal-step-status loading';
+
+      try {
+        const gpId = plans[mCurrentPlan].gamepassId;
+        const res = await fetch('/api/roblox-pass', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: mUserId, gamepassId: gpId })
+        });
+        const data = await res.json();
+
+        if (data.owned === true) {
+          status.textContent = '✓ Gamepass verified!';
+          status.className = 'modal-step-status success';
+          document.getElementById('mStep3Num').classList.add('done');
+          document.getElementById('mStep3Num').textContent = '✓';
+          mStep3Done = true;
+          mCheckContinue();
+        } else if (data.owned === false) {
+          status.textContent = '✕ You don\'t own this gamepass yet';
+          status.className = 'modal-step-status error';
+        } else {
+          status.innerHTML = '⚠ Could not auto-verify. <span style="cursor:pointer;text-decoration:underline;" onclick="mForceVerify()">Click here to continue anyway</span>';
+          status.className = 'modal-step-status loading';
+        }
+      } catch (e) {
+        status.textContent = '✕ Error verifying purchase';
+        status.className = 'modal-step-status error';
       }
+      btn.disabled = false; btn.textContent = 'Verify Purchase';
+    }
+
+    function mForceVerify() {
+      const status = document.getElementById('mStep3Status');
+      status.textContent = '✓ Proceeding on trust';
+      status.className = 'modal-step-status success';
+      document.getElementById('mStep3Num').classList.add('done');
+      document.getElementById('mStep3Num').textContent = '✓';
+      mStep3Done = true;
       mCheckContinue();
     }
 
