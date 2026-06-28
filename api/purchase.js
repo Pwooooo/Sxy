@@ -38,6 +38,9 @@ export default async function handler(req, res) {
   const emailKey = email.toLowerCase().trim();
   const uid = String(robloxUserId);
 
+  const authHeader = req.headers.authorization;
+  const sessionToken = authHeader ? authHeader.replace('Bearer ', '') : null;
+
   const alreadyUsed = await redisCommand('SISMEMBER', 'roblox-used-set', uid);
   if (alreadyUsed) {
     const owner = await redisCommand('GET', 'roblox-used:' + uid);
@@ -45,12 +48,17 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'This Roblox account has already been used to claim a key.' });
     }
     if (owner && owner === emailKey) {
+      if (!sessionToken) {
+        return res.status(401).json({ error: 'Please log in to view your existing key.' });
+      }
+      const sessionEmail = await redisCommand('GET', 'session:' + sessionToken);
+      if (!sessionEmail || sessionEmail !== emailKey) {
+        return res.status(401).json({ error: 'Session expired. Please log in again.' });
+      }
       const raw = await redisCommand('GET', 'user:' + emailKey);
       const user = raw ? (typeof raw === 'string' ? JSON.parse(raw) : raw) : null;
       if (user && user.licenseKey) {
-        const sessionToken = crypto.randomBytes(32).toString('hex');
-        await redisCommand('SET', 'session:' + sessionToken, emailKey, 'EX', 2592000);
-        return res.status(200).json({ success: true, licenseKey: user.licenseKey, sessionToken, plan: user.plan || plan });
+        return res.status(200).json({ success: true, licenseKey: user.licenseKey, plan: user.plan || plan });
       }
     }
   }
@@ -59,6 +67,13 @@ export default async function handler(req, res) {
   let user;
   if (raw) {
     user = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    if (!sessionToken) {
+      return res.status(401).json({ error: 'Please log in to make changes to your account.' });
+    }
+    const sessionEmail = await redisCommand('GET', 'session:' + sessionToken);
+    if (!sessionEmail || sessionEmail !== emailKey) {
+      return res.status(401).json({ error: 'Session expired. Please log in again.' });
+    }
   } else {
     user = { email: emailKey, username: robloxUser, createdAt: new Date().toISOString() };
   }
