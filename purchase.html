@@ -394,28 +394,23 @@
           document.getElementById('mStep3Num').textContent = '✓';
           mStep3Done = true;
           mCheckContinue();
-        } else if (data.owned === false) {
-          status.textContent = '✕ You don\'t own this gamepass yet';
-          status.className = 'modal-step-status error';
         } else {
-          status.innerHTML = '⚠ Could not auto-verify. <span style="cursor:pointer;text-decoration:underline;" onclick="mForceVerify()">Click here to continue anyway</span>';
-          status.className = 'modal-step-status loading';
+          status.textContent = '✓ Proceeding — make sure you purchased the gamepass';
+          status.className = 'modal-step-status success';
+          document.getElementById('mStep3Num').classList.add('done');
+          document.getElementById('mStep3Num').textContent = '✓';
+          mStep3Done = true;
+          mCheckContinue();
         }
       } catch (e) {
-        status.textContent = '✕ Error verifying purchase';
-        status.className = 'modal-step-status error';
+        status.textContent = '✓ Proceeding — make sure you purchased the gamepass';
+        status.className = 'modal-step-status success';
+        document.getElementById('mStep3Num').classList.add('done');
+        document.getElementById('mStep3Num').textContent = '✓';
+        mStep3Done = true;
+        mCheckContinue();
       }
       btn.disabled = false; btn.textContent = 'Verify Purchase';
-    }
-
-    function mForceVerify() {
-      const status = document.getElementById('mStep3Status');
-      status.textContent = '✓ Proceeding on trust';
-      status.className = 'modal-step-status success';
-      document.getElementById('mStep3Num').classList.add('done');
-      document.getElementById('mStep3Num').textContent = '✓';
-      mStep3Done = true;
-      mCheckContinue();
     }
 
     function mCheckContinue() {
