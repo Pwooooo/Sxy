@@ -1,7 +1,7 @@
-import { Redis } from '@upstash/redis';
+import Redis from 'ioredis';
 import crypto from 'crypto';
 
-const redis = new Redis({ url: process.env.REDIS_URL });
+const redis = new Redis(process.env.REDIS_URL);
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

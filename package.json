@@ -1,9 +1,8 @@
 {
   "name": "sxy",
   "version": "1.0.0",
-  "type": "module",
   "private": true,
   "dependencies": {
-    "@upstash/redis": "^1.34.0"
+    "ioredis": "^5.4.0"
   }
 }

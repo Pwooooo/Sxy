@@ -1,7 +1,7 @@
-import { Redis } from '@upstash/redis';
+import Redis from 'ioredis';
 import crypto from 'crypto';
 
-const redis = new Redis({ url: process.env.REDIS_URL });
+const redis = new Redis(process.env.REDIS_URL);
 
 function verifyPassword(password, stored) {
   const [salt, hash] = stored.split(':');
