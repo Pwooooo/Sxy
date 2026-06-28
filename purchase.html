@@ -340,11 +340,40 @@
       document.getElementById('mContinueBtn').disabled = !(mStep1Done && mStep3Done && email.includes('@'));
     }
 
-    function mComplete() {
+    async function mComplete() {
       const email = document.getElementById('mEmail').value.trim();
       if (!email || !mStep1Done || !mStep3Done) return;
-      const key = 'SXY-' + Array.from({length: 4}, () => Math.random().toString(36).substring(2,6).toUpperCase()).join('-');
-      localStorage.setItem('sxy_license', key);
+
+      const token = localStorage.getItem('sxy_token');
+      const body = {
+        email,
+        plan: mCurrentPlan,
+        robloxUser: document.getElementById('mRobloxUser').value.trim(),
+        robloxUserId: mUserId
+      };
+
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+
+        const res = await fetch('/api/purchase', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+
+        if (res.ok && data.licenseKey) {
+          localStorage.setItem('sxy_license', data.licenseKey);
+        } else {
+          const key = 'SXY-' + Array.from({length: 4}, () => Math.random().toString(36).substring(2,6).toUpperCase()).join('-');
+          localStorage.setItem('sxy_license', key);
+        }
+      } catch (e) {
+        const key = 'SXY-' + Array.from({length: 4}, () => Math.random().toString(36).substring(2,6).toUpperCase()).join('-');
+        localStorage.setItem('sxy_license', key);
+      }
+
       localStorage.setItem('sxy_user', document.getElementById('mRobloxUser').value.trim());
       localStorage.setItem('sxy_plan', mCurrentPlan);
       localStorage.setItem('sxy_email', email);

@@ -123,17 +123,18 @@
 
         <div class="form-group">
           <label class="form-label">Email</label>
-          <input type="email" class="form-input" placeholder="you@example.com">
+          <input type="email" class="form-input" id="signupEmail" placeholder="you@example.com">
         </div>
         <div class="form-group">
           <label class="form-label">Username</label>
-          <input type="text" class="form-input" placeholder="Choose a username">
+          <input type="text" class="form-input" id="signupUsername" placeholder="Choose a username">
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
-          <input type="password" class="form-input" placeholder="Create a password">
+          <input type="password" class="form-input" id="signupPassword" placeholder="Create a password">
         </div>
-        <button class="btn-primary" onclick="window.location.href='dashboard.html'">Sign Up</button>
+        <div id="signupError" style="color:#ef4444; font-size:13px; margin-bottom:12px; display:none;"></div>
+        <button class="btn-primary" id="signupBtn" onclick="doSignup()">Sign Up</button>
 
         <div class="auth-footer">
           Already have an account? <a href="login.html">Log in</a>
@@ -143,6 +144,54 @@
 
     <footer class="footer">© 2026 SXY</footer>
   </div>
+
+  <script>
+    async function doSignup() {
+      const email = document.getElementById('signupEmail').value.trim();
+      const username = document.getElementById('signupUsername').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const errEl = document.getElementById('signupError');
+      const btn = document.getElementById('signupBtn');
+
+      errEl.style.display = 'none';
+
+      if (!email || !username || !password) {
+        errEl.textContent = 'Please fill in all fields';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Creating account...';
+
+      try {
+        const res = await fetch('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, username, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          errEl.textContent = data.error || 'Signup failed';
+          errEl.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Sign Up';
+          return;
+        }
+
+        localStorage.setItem('sxy_token', data.token);
+        localStorage.setItem('sxy_user', data.user.username);
+        localStorage.setItem('sxy_email', data.user.email);
+        window.location.href = 'dashboard.html';
+      } catch (e) {
+        errEl.textContent = 'Network error — try again';
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Sign Up';
+      }
+    }
+  </script>
 
   <script>
     const canvas = document.getElementById('waves');

@@ -97,13 +97,14 @@
 
         <div class="form-group">
           <label class="form-label">Email</label>
-          <input type="email" class="form-input" placeholder="you@example.com">
+          <input type="email" class="form-input" id="loginEmail" placeholder="you@example.com">
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
-          <input type="password" class="form-input" placeholder="Enter your password">
+          <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password">
         </div>
-        <button class="btn-primary" onclick="window.location.href='dashboard.html'">Log In</button>
+        <div id="loginError" style="color:#ef4444; font-size:13px; margin-bottom:12px; display:none;"></div>
+        <button class="btn-primary" id="loginBtn" onclick="doLogin()">Log In</button>
 
         <div class="auth-footer">
           Don't have an account? <a href="signup.html">Sign up</a>
@@ -113,6 +114,55 @@
 
     <footer class="footer">© 2026 SXY</footer>
   </div>
+
+  <script>
+    async function doLogin() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const errEl = document.getElementById('loginError');
+      const btn = document.getElementById('loginBtn');
+
+      errEl.style.display = 'none';
+
+      if (!email || !password) {
+        errEl.textContent = 'Please fill in all fields';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Logging in...';
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          errEl.textContent = data.error || 'Login failed';
+          errEl.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Log In';
+          return;
+        }
+
+        localStorage.setItem('sxy_token', data.token);
+        localStorage.setItem('sxy_user', data.user.username);
+        localStorage.setItem('sxy_email', data.user.email);
+        if (data.user.plan) localStorage.setItem('sxy_plan', data.user.plan);
+        if (data.user.licenseKey) localStorage.setItem('sxy_license', data.user.licenseKey);
+        window.location.href = 'dashboard.html';
+      } catch (e) {
+        errEl.textContent = 'Network error — try again';
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Log In';
+      }
+    }
+  </script>
 
   <script>
     const canvas = document.getElementById('waves');
