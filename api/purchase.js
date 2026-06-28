@@ -1,5 +1,7 @@
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 import crypto from 'crypto';
+
+const redis = new Redis({ url: process.env.REDIS_URL });
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -13,11 +15,13 @@ export default async function handler(req, res) {
   }
 
   const emailKey = email.toLowerCase().trim();
-  const user = await kv.get(`user:${emailKey}`);
+  const raw = await redis.get('user:' + emailKey);
 
-  if (!user) {
+  if (!raw) {
     return res.status(404).json({ error: 'User not found' });
   }
+
+  const user = typeof raw === 'string' ? JSON.parse(raw) : raw;
 
   const key = 'SXY-' + Array.from({length: 4}, () => crypto.randomBytes(2).toString('hex').toUpperCase()).join('-');
 
@@ -27,7 +31,7 @@ export default async function handler(req, res) {
   user.robloxUserId = robloxUserId;
   user.purchasedAt = new Date().toISOString();
 
-  await kv.set(`user:${emailKey}`, user);
+  await redis.set('user:' + emailKey, JSON.stringify(user));
 
   return res.status(200).json({
     success: true,
