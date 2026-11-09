@@ -29,7 +29,7 @@
       border-radius: 9999px !important;
     }
     ::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover {
-      background: #d20a2e !important;
+      background: rgba(255, 255, 255, 0.45) !important;
     }
     ::-webkit-scrollbar-button, *::-webkit-scrollbar-button {
       display: none !important;
@@ -82,19 +82,6 @@
       text-decoration: none;
       letter-spacing: -0.02em;
       font-family: var(--font-main, 'Titillium Web', sans-serif);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-logo::after {
-      content: '';
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      background: var(--primary, #d20a2e);
-      border-radius: 50%;
-      box-shadow: 0 0 8px rgba(210, 10, 46, 0.8);
     }
 
     .nav-links { display: flex; align-items: center; gap: 24px; }
@@ -125,12 +112,12 @@
       align-items: center;
       gap: 8px;
       padding: 6px 16px;
-      background: rgba(210, 10, 46, 0.12);
-      border: 1px solid rgba(210, 10, 46, 0.28);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 999px;
       font-size: 13px;
       font-weight: 600;
-      color: #ff5277;
+      color: #ffffff;
       margin-bottom: 24px;
       backdrop-filter: blur(10px);
     }
@@ -139,8 +126,8 @@
       width: 6px;
       height: 6px;
       border-radius: 999px;
-      background: #d20a2e;
-      box-shadow: 0 0 8px #d20a2e;
+      background: #ffffff;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
     }
 
     .hero h1 {
@@ -153,7 +140,7 @@
     }
 
     .hero h1 span {
-      background: linear-gradient(135deg, #f43f5e 0%, #c80829 100%);
+      background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.65) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -201,16 +188,16 @@
     }
     .card:hover {
       background: var(--bg-card-hover);
-      border-color: rgba(210, 10, 46, 0.35);
+      border-color: rgba(255, 255, 255, 0.2);
       transform: translateY(-3px);
-      box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.75), 0 0 24px rgba(210, 10, 46, 0.16);
+      box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.85);
     }
 
     .card-icon {
       width: 44px;
       height: 44px;
-      background: rgba(210, 10, 46, 0.1);
-      border: 1px solid rgba(210, 10, 46, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -218,12 +205,11 @@
       margin-bottom: 20px;
       transition: all 0.2s ease;
     }
-    .card-icon svg { width: 22px; height: 22px; stroke: #ff4d6d; }
+    .card-icon svg { width: 22px; height: 22px; stroke: #ffffff; }
 
     .card:hover .card-icon {
-      background: rgba(210, 10, 46, 0.2);
-      border-color: rgba(210, 10, 46, 0.45);
-      box-shadow: 0 0 12px rgba(210, 10, 46, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.22);
     }
 
     .card-title {

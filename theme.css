@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* ========================================================
-   LUDUVO DESIGN SYSTEM (Modern Gaming UI & Crimson Gradients)
+   LUDUVO MONOCHROME DESIGN SYSTEM (Pure Black & White)
    https://luduvo.com/
    ======================================================== */
 
@@ -18,22 +18,17 @@
   --text-muted: #8a8a8a;
   --border: rgba(255, 255, 255, 0.08);
   --border-light: rgba(255, 255, 255, 0.05);
-  --border-hover: rgba(255, 255, 255, 0.16);
-  --border-focus: #d20a2e;
-  --primary: #d20a2e;
-  --primary-gradient-top: #ec284c;
-  --primary-gradient-bottom: #c80829;
-  --primary-hover-top: #f43f5e;
-  --primary-hover-bottom: #d20a2e;
-  --accent: #d20a2e;
-  --accent-hover: #ec284c;
-  --accent-dim: rgba(210, 10, 46, 0.35);
-  --play-gradient-top: #10b981;
-  --play-gradient-bottom: #059669;
-  --success: #10b981;
+  --border-hover: rgba(255, 255, 255, 0.18);
+  --border-focus: rgba(255, 255, 255, 0.4);
+  --primary: #ffffff;
+  --primary-hover: #eaeaea;
+  --accent: #ffffff;
+  --accent-hover: #eaeaea;
+  --accent-dim: rgba(255, 255, 255, 0.35);
+  --success: #22c55e;
   --error: #ef4444;
-  --wave-color: 210, 10, 46;
-  --card-hover-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.75), 0 0 24px rgba(210, 10, 46, 0.16);
+  --wave-color: 255, 255, 255;
+  --card-hover-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.85), 0 0 20px rgba(255, 255, 255, 0.05);
   --btn-outline-border: rgba(255, 255, 255, 0.08);
   --btn-outline-hover-bg: #222222;
   --btn-danger-bg: rgba(239, 68, 68, 0.12);
@@ -60,18 +55,15 @@
   --border: rgba(0, 0, 0, 0.08);
   --border-light: rgba(0, 0, 0, 0.04);
   --border-hover: rgba(0, 0, 0, 0.16);
-  --border-focus: #d20a2e;
-  --primary: #d20a2e;
-  --primary-gradient-top: #ec284c;
-  --primary-gradient-bottom: #c80829;
-  --primary-hover-top: #f43f5e;
-  --primary-hover-bottom: #d20a2e;
-  --accent: #d20a2e;
-  --accent-hover: #ec284c;
-  --accent-dim: rgba(210, 10, 46, 0.2);
-  --success: #10b981;
+  --border-focus: #09090b;
+  --primary: #09090b;
+  --primary-hover: #27272a;
+  --accent: #09090b;
+  --accent-hover: #27272a;
+  --accent-dim: rgba(0, 0, 0, 0.2);
+  --success: #22c55e;
   --error: #ef4444;
-  --wave-color: 210, 10, 46;
+  --wave-color: 0, 0, 0;
   --card-hover-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
   --btn-outline-border: rgba(0, 0, 0, 0.12);
   --btn-outline-hover-bg: rgba(0, 0, 0, 0.04);
@@ -99,18 +91,15 @@
   --border: rgba(255, 255, 255, 0.06);
   --border-light: rgba(255, 255, 255, 0.03);
   --border-hover: rgba(255, 255, 255, 0.14);
-  --border-focus: #d20a2e;
-  --primary: #d20a2e;
-  --primary-gradient-top: #ec284c;
-  --primary-gradient-bottom: #c80829;
-  --primary-hover-top: #f43f5e;
-  --primary-hover-bottom: #d20a2e;
-  --accent: #d20a2e;
-  --accent-hover: #ec284c;
-  --success: #10b981;
+  --border-focus: rgba(255, 255, 255, 0.4);
+  --primary: #ffffff;
+  --primary-hover: #eaeaea;
+  --accent: #ffffff;
+  --accent-hover: #eaeaea;
+  --success: #22c55e;
   --error: #ef4444;
-  --wave-color: 210, 10, 46;
-  --card-hover-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+  --wave-color: 255, 255, 255;
+  --card-hover-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
   --btn-outline-border: rgba(255, 255, 255, 0.08);
   --btn-outline-hover-bg: #161616;
   --radius: 10px;
@@ -146,7 +135,7 @@ body {
 }
 
 /* ========================================================
-   CUSTOM SLEEK SCROLLBAR (Luduvo / Gaming Style)
+   CUSTOM SLEEK SCROLLBAR (Black & White Minimal)
    ======================================================== */
 
 html, body, *, *::before, *::after {
@@ -174,7 +163,7 @@ html, body, *, *::before, *::after {
 
 ::-webkit-scrollbar-thumb:hover,
 *::-webkit-scrollbar-thumb:hover {
-  background: var(--primary, #d20a2e) !important;
+  background: rgba(255, 255, 255, 0.45) !important;
 }
 
 ::-webkit-scrollbar-button,
@@ -198,13 +187,13 @@ html, body, *, *::before, *::after {
   transform: translateX(-50%);
   width: 100vw;
   height: 520px;
-  background: radial-gradient(ellipse 70% 45% at 50% -10%, rgba(210, 10, 46, 0.12), transparent 70%);
+  background: radial-gradient(ellipse 70% 45% at 50% -10%, rgba(255, 255, 255, 0.05), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
 /* ========================================================
-   NAVBAR (Luduvo Top Bar)
+   NAVBAR (Clean Monochrome Top Bar)
    ======================================================== */
 
 .nav {
@@ -223,21 +212,11 @@ html, body, *, *::before, *::after {
   font-size: 20px !important;
   font-weight: 700 !important;
   letter-spacing: -0.02em !important;
-  color: var(--text) !important;
+  color: #ffffff !important;
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.nav-logo::after {
-  content: '';
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background: var(--primary, #d20a2e);
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(210, 10, 46, 0.8);
 }
 
 .nav-link {
@@ -254,7 +233,7 @@ html, body, *, *::before, *::after {
 }
 
 /* ========================================================
-   BUTTONS (Luduvo Crimson Gradient & Secondary Buttons)
+   BUTTONS (Monochrome Luduvo Style)
    ======================================================== */
 
 .btn-primary, .step-btn, .modal-step-btn, .continue-btn, .modal-continue, .hero-btn, .plan-btn-primary {
@@ -269,24 +248,23 @@ html, body, *, *::before, *::after {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  background-image: linear-gradient(to bottom, var(--primary-gradient-top, #ec284c), var(--primary-gradient-bottom, #c80829)) !important;
-  background-color: var(--primary, #d20a2e) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 16px rgba(210, 10, 46, 0.25) !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+  color: #000000 !important;
+  border: 1px solid #ffffff !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 18px rgba(255, 255, 255, 0.12) !important;
   cursor: pointer;
   white-space: nowrap;
   text-decoration: none;
   transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
               box-shadow 0.2s ease,
-              background 0.2s ease,
-              filter 0.2s ease;
+              background 0.2s ease;
 }
 
 .btn-primary:hover, .step-btn:hover, .modal-step-btn:hover, .continue-btn:hover, .modal-continue:hover, .hero-btn:hover, .plan-btn-primary:hover {
-  background-image: linear-gradient(to bottom, var(--primary-hover-top, #f43f5e), var(--primary-hover-bottom, #d20a2e)) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 24px rgba(210, 10, 46, 0.45) !important;
-  color: #ffffff !important;
+  background-color: #f0f0f0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 255, 255, 0.22) !important;
+  color: #000000 !important;
   transform: translateY(-1px);
 }
 
@@ -307,7 +285,7 @@ html, body, *, *::before, *::after {
   font-weight: 600;
   letter-spacing: -0.01em;
   background: var(--bg-3, #181818) !important;
-  color: var(--text) !important;
+  color: #ffffff !important;
   border: 1px solid var(--border) !important;
   cursor: pointer;
   white-space: nowrap;
@@ -319,7 +297,7 @@ html, body, *, *::before, *::after {
 
 .btn-outline:hover, .plan-btn-outline:hover {
   background: #222222 !important;
-  border-color: rgba(255, 255, 255, 0.16) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
   color: #ffffff !important;
   transform: translateY(-1px);
 }
@@ -406,7 +384,7 @@ html, body, *, *::before, *::after {
 }
 
 /* ========================================================
-   CARDS & SURFACES (Luduvo Gaming Surfaces)
+   CARDS & SURFACES (Monochrome Gaming Surfaces)
    ======================================================== */
 
 .card, .plan-card, .auth-box, .key-box, .stat, .action-card, .section, .stat-card {
@@ -422,15 +400,15 @@ html, body, *, *::before, *::after {
 
 .card:hover, .plan-card:hover, .action-card:hover, .stat-card:hover {
   background: var(--bg-card-hover, #161616);
-  border-color: rgba(210, 10, 46, 0.35);
+  border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-3px);
   box-shadow: var(--card-hover-shadow);
 }
 
 .plan-badge, .hero-badge {
-  background: rgba(210, 10, 46, 0.15) !important;
-  color: #ff4d6d !important;
-  border: 1px solid rgba(210, 10, 46, 0.35) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
   border-radius: 999px !important;
   font-size: 11px !important;
   font-weight: 700 !important;
@@ -446,30 +424,30 @@ html, body, *, *::before, *::after {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--primary, #d20a2e);
-  box-shadow: 0 0 8px rgba(210, 10, 46, 0.8);
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 .card-icon, .plan-icon, .action-icon, .modal-plan-icon {
   width: 44px;
   height: 44px;
   border-radius: 10px;
-  background: rgba(210, 10, 46, 0.1);
-  border: 1px solid rgba(210, 10, 46, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20px;
   transition: all 0.2s ease;
 }
 
 .card-icon svg, .plan-icon svg, .action-icon svg, .modal-plan-icon svg {
-  stroke: #ff4d6d;
+  stroke: #ffffff;
 }
 
-.plan-card:hover .plan-icon, .action-card:hover .action-icon {
-  background: rgba(210, 10, 46, 0.2);
-  border-color: rgba(210, 10, 46, 0.45);
-  box-shadow: 0 0 12px rgba(210, 10, 46, 0.3);
+.plan-card:hover .plan-icon, .action-card:hover .action-icon, .card:hover .card-icon {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 /* ========================================================
@@ -496,8 +474,8 @@ html, body, *, *::before, *::after {
 
 .form-input:focus, .step-input:focus, .modal-step-input:focus {
   background: var(--bg-input-focus, #181818);
-  border-color: var(--primary, #d20a2e);
-  box-shadow: 0 0 0 3px rgba(210, 10, 46, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
 }
 
 .form-label, .step-title, .modal-step-title, .card-label, .section-title, .stat-label, .key-label, .action-title, .auth-title, .purchase-title, .dash-title, .settings-title, .modal-header h2, .plan-name, .modal-plan-info h3 {
@@ -507,7 +485,7 @@ html, body, *, *::before, *::after {
 }
 
 /* ========================================================
-   HERO HEADINGS (Luduvo Style)
+   HERO HEADINGS (Monochrome Clean)
    ======================================================== */
 
 h1#title, .hero h1 {
@@ -517,7 +495,7 @@ h1#title, .hero h1 {
 }
 
 h1#title span, .hero h1 span {
-  background: linear-gradient(135deg, #f43f5e, #c80829);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.65) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
