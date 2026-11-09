@@ -190,33 +190,6 @@
     }
   </script>
 
-  <script>
-    const canvas = document.getElementById('waves');
-    const ctx = canvas.getContext('2d');
-    let w, h, time = 0;
-    function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resize); resize();
-    function noise(x) { return Math.sin(x*1.2)*0.5 + Math.sin(x*2.3)*0.3 + Math.sin(x*3.7)*0.2; }
-    function draw() {
-      const cs = getComputedStyle(document.documentElement);
-      const wc = cs.getPropertyValue('--wave-color').trim();
-      ctx.clearRect(0, 0, w, h);
-      const lines = 30, spacing = h / lines;
-      for (let i = 0; i < lines; i++) {
-        ctx.beginPath();
-        const yBase = i * spacing;
-        const alpha = 0.15 + (Math.abs(i - lines/2)/lines)*0.2;
-        ctx.strokeStyle = `rgba(${wc},${alpha})`; ctx.lineWidth = 1.2;
-        for (let x = 0; x <= w; x += 3) {
-          const xN = x/w;
-          const y = yBase + Math.sin(xN*4+time*0.3+i*0.4)*30 + Math.sin(xN*6-time*0.2+i*0.6)*20 + noise(xN*3+time*0.1+i*0.3)*25;
-          if (x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-        }
-        ctx.stroke();
-      }
-      time += 0.008; requestAnimationFrame(draw);
-    }
-    draw();
-  </script>
+  <script src="waves.js"></script>
 </body>
 </html>

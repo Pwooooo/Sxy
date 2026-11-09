@@ -184,54 +184,8 @@
     <footer class="footer">© 2026 Sky</footer>
   </div>
 
+  <script src="waves.js"></script>
   <script>
-    const canvas = document.getElementById('waves');
-    const ctx = canvas.getContext('2d');
-    let w, h, time = 0;
-
-    function resize() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    function noise(x) {
-      return Math.sin(x * 1.2) * 0.5 + Math.sin(x * 2.3) * 0.3 + Math.sin(x * 3.7) * 0.2;
-    }
-
-    function draw() {
-      const cs = getComputedStyle(document.documentElement);
-      const wc = cs.getPropertyValue('--wave-color').trim();
-      ctx.clearRect(0, 0, w, h);
-      const lines = 24;
-      const spacing = h / lines;
-
-      for (let i = 0; i < lines; i++) {
-        ctx.beginPath();
-        const yBase = i * spacing;
-        const alpha = 0.08 + (Math.abs(i - lines / 2) / lines) * 0.12;
-        ctx.strokeStyle = `rgba(${wc},${alpha})`;
-        ctx.lineWidth = 1;
-
-        for (let x = 0; x <= w; x += 3) {
-          const xNorm = x / w;
-          const wave1 = Math.sin(xNorm * 4 + time * 0.3 + i * 0.4) * 28;
-          const wave2 = Math.sin(xNorm * 6 - time * 0.2 + i * 0.6) * 18;
-          const wave3 = noise(xNorm * 3 + time * 0.1 + i * 0.3) * 20;
-          const y = yBase + wave1 + wave2 + wave3;
-
-          if (x === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      }
-
-      time += 0.006;
-      requestAnimationFrame(draw);
-    }
-    draw();
-
     if (localStorage.getItem('sky_token')) {
       const btn = document.getElementById('heroBtn');
       btn.textContent = 'Dashboard';
