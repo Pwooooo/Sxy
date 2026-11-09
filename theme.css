@@ -193,18 +193,16 @@ html, body, *, *::before, *::after {
 }
 
 /* ========================================================
-   NAVBAR (Clean Monochrome Top Bar)
+   NAVBAR (Transparent Floating Top Bar)
    ======================================================== */
 
 .nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  background: rgba(10, 10, 10, 0.85);
-  transition: all 0.2s ease;
+  position: relative;
+  background: transparent !important;
+  border-bottom: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
 }
 
 .nav-logo {
