@@ -156,8 +156,13 @@
   </style>
 </head>
 <body>
-  <div id="vanta-bg"></div>
-  <div class="page">
+  <div class="page relative isolate">
+    <!-- Fluid Smoke -->
+    <div
+      data-aifx="fluid-smoke"
+      class="absolute inset-0 -z-10 pointer-events-none"
+      aria-hidden="true"
+    ></div>
     <nav class="nav">
       <a href="index.html" class="nav-logo">Sky</a>
       <div class="nav-links">
@@ -306,9 +311,7 @@
       }
     })();
   </script>
-
-  <script src="three.min.js"></script>
-  <script src="vanta.clouds.min.js?v=10"></script>
-  <script src="waves.js?v=14"></script>
+  <!-- Effect runtime -->
+  <script src="https://cdn.aidesigner.ai/effects/runtime/v1.js" defer></script>
 </body>
 </html>

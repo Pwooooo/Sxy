@@ -106,8 +106,14 @@
   </style>
 </head>
 <body>
-  <div id="vanta-bg"></div>
-  <div class="admin-container">
+  <div class="page relative isolate">
+    <!-- Fluid Smoke -->
+    <div
+      data-aifx="fluid-smoke"
+      class="absolute inset-0 -z-10 pointer-events-none"
+      aria-hidden="true"
+    ></div>
+    <div class="admin-container">
     <div class="admin-header">
       <h1><span>Sky</span> Admin <span class="admin-badge">ADMIN</span></h1>
       <a href="dashboard.html" style="color:var(--text-secondary);text-decoration:none;font-size:13px;">← Back to Dashboard</a>
@@ -130,6 +136,7 @@
       <div id="blockedContent"><div class="loading">Loading...</div></div>
     </div>
   </div>
+</div>
 
   <script>
     const token = localStorage.getItem('sky_token');
@@ -213,9 +220,7 @@
 
     loadAdmin();
   </script>
-
-  <script src="three.min.js"></script>
-  <script src="vanta.clouds.min.js?v=10"></script>
-  <script src="waves.js?v=14"></script>
+  <!-- Effect runtime -->
+  <script src="https://cdn.aidesigner.ai/effects/runtime/v1.js" defer></script>
 </body>
 </html>
