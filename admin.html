@@ -4,57 +4,77 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sky — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap">
   <script src="theme.js"></script>
+  <link rel="stylesheet" href="theme.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root, [data-theme="light"] {
-      --bg: #fafafa; --bg-card: #ffffff; --bg-input: #fafafa;
-      --text: #111111; --text-secondary: #888; --text-muted: #999;
-      --border: #e5e5e5; --accent: #a855f7; --accent-hover: #9333ea;
-      --success: #22c55e; --error: #ef4444; --wave-color: 0,0,0;
-    }
-    [data-theme="dark"] {
-      --bg: #111; --bg-card: #1a1a1a; --bg-input: #222;
-      --text: #e5e5e5; --text-secondary: #999; --text-muted: #666;
-      --border: #2a2a2a; --accent: #a855f7; --accent-hover: #9333ea;
-      --success: #22c55e; --error: #ef4444; --wave-color: 255,255,255;
-    }
-    [data-theme="midnight"] {
-      --bg: #0a0a1a; --bg-card: #12122a; --bg-input: #1a1a35;
-      --text: #e0e0f0; --text-secondary: #8888bb; --text-muted: #555580;
-      --border: #252550; --accent: #a78bfa; --accent-hover: #8b5cf6;
-      --success: #34d399; --error: #f87171; --wave-color: 160,160,255;
-    }
-    [data-theme="sakura"] {
-      --bg: #fff5f7; --bg-card: #ffffff; --bg-input: #fff8fa;
-      --text: #4a3040; --text-secondary: #9a7088; --text-muted: #b898a8;
-      --border: #f0c8d8; --accent: #e8789a; --accent-hover: #d65f80;
-      --success: #50c878; --error: #e85050;       --wave-color: 220,140,170;
-    }
-    [data-theme="nature"] {
-      --bg: #f4f7f2; --bg-card: #ffffff; --bg-input: #f0f4ee;
-      --text: #1a2e1a; --text-secondary: #5a7a5a; --text-muted: #8aaa8a;
-      --border: #d4e4d0; --accent: #2d7a2d; --accent-hover: #1e5e1e;
-      --success: #50c878; --error: #e85050; --wave-color: 45,122,45;
-    }
-    [data-theme="ocean"] {
-      --bg: #f0f7fa; --bg-card: #ffffff; --bg-input: #eaf4f8;
-      --text: #0c2d3e; --text-secondary: #4a7a8a; --text-muted: #7aa8b8;
-      --border: #c4dde8; --accent: #0e7490; --accent-hover: #095a6e;
-      --success: #50c878; --error: #e85050; --wave-color: 14,116,144;
-    }
-    [data-theme="lavender"] {
-      --bg: #f5f0fa; --bg-card: #ffffff; --bg-input: #f0eaf6;
-      --text: #2a1a3e; --text-secondary: #7a6090; --text-muted: #a890b8;
-      --border: #ddd0ee; --accent: #7c3aed; --accent-hover: #6525c0;
-      --success: #50c878; --error: #e85050; --wave-color: 124,58,237;
-    }
-    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
-    canvas#waves { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
-    .admin-container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-main, 'Geist', sans-serif); min-height: 100vh; overflow-x: hidden; }
+    canvas#waves { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.6; }
+
+    .admin-container { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 40px 20px; }
 
     .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+    .admin-header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; }
+    .admin-header h1 span { color: var(--text); }
+    .admin-badge { background: #ffffff; color: #000000; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; margin-left: 8px; letter-spacing: 0.04em; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px 24px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 20px 40px -16px rgba(0, 0, 0, 0.7);
+    }
+    .stat-card .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; margin-bottom: 6px; }
+    .stat-card .stat-value { font-size: 30px; font-weight: 700; color: #ffffff; letter-spacing: -0.025em; }
+
+    .section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 20px 40px -16px rgba(0, 0, 0, 0.7);
+    }
+    .section-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; letter-spacing: -0.015em; }
+
+    .user-table { width: 100%; border-collapse: collapse; }
+    .user-table th { text-align: left; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 14px; border-bottom: 1px solid var(--border); font-weight: 600; }
+    .user-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-light); font-size: 14px; }
+    .user-table tr:last-child td { border-bottom: none; }
+    .user-table tr:hover td { background: rgba(255, 255, 255, 0.03); }
+
+    .user-email { color: var(--text); font-weight: 500; }
+    .user-roblox { color: var(--text-secondary); font-size: 13px; }
+    .user-plan { font-size: 11px; padding: 3px 10px; border-radius: 999px; font-weight: 600; letter-spacing: 0.02em; }
+    .user-plan.basic { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
+    .user-plan.premium { background: #ffffff; color: #000000; }
+    .user-plan.none { background: var(--border); color: var(--text-muted); }
+
+    .btn-danger { background: rgba(239, 68, 68, 0.12); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.25); padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.18s ease; }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.22); }
+
+    .blocked-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .blocked-tag { background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.25); padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+    .blocked-tag button { background: none; border: none; color: var(--error); cursor: pointer; font-size: 14px; line-height: 1; }
+
+    .loading { text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; }
+    .error-msg { background: rgba(239,68,68,0.12); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.25); padding: 12px 16px; border-radius: 12px; font-size: 13px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <canvas id="waves"></canvas>
+  <div class="admin-container">
+    <div class="admin-header">
     .admin-header h1 { font-size: 28px; font-weight: 700; }
     .admin-header h1 span { color: var(--accent); }
     .admin-badge { background: var(--accent); color: #fff; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; margin-left: 8px; }
