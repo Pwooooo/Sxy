@@ -220,6 +220,7 @@ html, body, *, *::before, *::after {
   z-index: -10 !important;
   pointer-events: none !important;
   overflow: hidden !important;
+  opacity: 0.85 !important;
 }
 
 [data-aifx="fluid-smoke"] canvas {
