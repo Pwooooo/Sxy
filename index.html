@@ -101,7 +101,7 @@
 
     .hero {
       text-align: center;
-      padding: 60px 20px 80px;
+      padding: 40px 20px 60px;
       max-width: 960px;
       margin: 0 auto;
       width: 100%;
@@ -112,29 +112,14 @@
       align-items: center;
     }
 
-    .hero h1 {
-      font-size: clamp(48px, 7vw, 92px);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.02;
-      color: var(--text);
-      margin-bottom: 20px;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.65) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-lede {
-      font-size: clamp(17px, 1.6vw, 20px);
-      color: var(--text-secondary);
-      font-weight: 400;
-      line-height: 1.5;
-      max-width: 620px;
+    .hero-img {
+      max-width: min(520px, 86vw);
+      height: auto;
+      object-fit: contain;
       margin: 0 auto 36px;
-      letter-spacing: -0.01em;
+      display: block;
+      filter: drop-shadow(0 16px 40px rgba(0, 0, 0, 0.7));
+      user-select: none;
     }
 
     .hero-cta {
@@ -172,8 +157,7 @@
     </nav>
 
     <section class="hero">
-      <h1 id="title">Run every <span>script.</span></h1>
-      <p class="hero-lede">A modern Roblox development workspace for scripting, testing, and managing projects in one focused environment.</p>
+      <img src="hero-logo.png" alt="Sky" class="hero-img">
 
       <div class="hero-cta">
         <a id="heroBtn" href="signup.html" class="btn btn-primary">Get Started</a>
@@ -184,7 +168,7 @@
     <footer class="footer">© 2026 Sky</footer>
   </div>
 
-  <script src="waves.js?v=2"></script>
+  <script src="waves.js?v=3"></script>
   <script>
     if (localStorage.getItem('sky_token')) {
       const btn = document.getElementById('heroBtn');

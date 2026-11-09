@@ -7,9 +7,9 @@
  * - Organic Simplex Noise morphing, billowing, and vapor condensation
  * - Interactive Aerodynamic Physics: cursor velocity imparts wind vectors, parting clouds with wake vortex
  * - Dynamic condensation trails & spinning vapor vortex particles in cursor slipstream
- * - Cirrus jetstream streamlines flowing along curl noise vector fields
  * - Stratospheric ice crystals / micro-stars with deep cosmic parallax
  * - Pure Monochrome: Obsidian (#08080a), Charcoal, Silver-Lining Specular Rims, Pure White Highlights
+ * - NO simple wave lines: purely volumetric clouds and atmospheric physics
  */
 
 (function () {
@@ -37,7 +37,7 @@
     vy: 0,
     speed: 0,
     active: false,
-    radius: 260,
+    radius: 280,
     wakeTimer: 0
   };
 
@@ -125,18 +125,6 @@
 
   const noise2D = createSimplexNoise();
 
-  function fbm(x, y, octaves = 3) {
-    let value = 0;
-    let amplitude = 0.5;
-    let frequency = 1.0;
-    for (let o = 0; o < octaves; o++) {
-      value += amplitude * noise2D(x * frequency, y * frequency);
-      frequency *= 2.08;
-      amplitude *= 0.46;
-    }
-    return value;
-  }
-
   // -------------------------------------------------------------
   // Pre-rendered Volumetric Cloud Vapor Sprites (Offscreen Canvas)
   // -------------------------------------------------------------
@@ -150,24 +138,24 @@
     const ctxC = c.getContext('2d');
     const center = SPRITE_SIZE / 2;
 
-    const grad = ctxC.createRadialGradient(center, center * 0.95, 0, center, center, center);
+    const grad = ctxC.createRadialGradient(center, center * 0.92, 0, center, center, center);
 
     if (type === 'cumulus') {
       // Billowing soft cumulus puff with silver-lining rim
-      grad.addColorStop(0, 'rgba(255, 255, 255, 0.42)');
-      grad.addColorStop(0.35, 'rgba(255, 255, 255, 0.24)');
-      grad.addColorStop(0.7, 'rgba(255, 255, 255, 0.08)');
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.45)');
+      grad.addColorStop(0.35, 'rgba(255, 255, 255, 0.26)');
+      grad.addColorStop(0.72, 'rgba(255, 255, 255, 0.08)');
       grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
     } else if (type === 'cirrus') {
       // Wispy, stratified feather vapor
-      grad.addColorStop(0, 'rgba(255, 255, 255, 0.22)');
-      grad.addColorStop(0.45, 'rgba(255, 255, 255, 0.1)');
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
+      grad.addColorStop(0.42, 'rgba(255, 255, 255, 0.12)');
       grad.addColorStop(0.8, 'rgba(255, 255, 255, 0.03)');
       grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
     } else {
       // Deep stratospheric ambient mist
-      grad.addColorStop(0, 'rgba(255, 255, 255, 0.16)');
-      grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.06)');
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.18)');
+      grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.07)');
       grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
     }
 
@@ -184,9 +172,9 @@
   cloudSprites.push(createCloudSprite('mist'));
 
   // -------------------------------------------------------------
-  // Stratospheric Ice Crystals & Micro-Stars (Cosmic Background)
+  // Stratospheric Ice Crystals & Micro-Stars (Cosmic Sky)
   // -------------------------------------------------------------
-  const STAR_COUNT = 90;
+  const STAR_COUNT = 100;
   const stars = [];
 
   function initStars() {
@@ -207,7 +195,7 @@
   // -------------------------------------------------------------
   // Volumetric Cloud Puff Nodes (Atmospheric Cloud Banks)
   // -------------------------------------------------------------
-  const CLOUD_COUNT = 75;
+  const CLOUD_COUNT = 96;
   const clouds = [];
 
   function initClouds() {
@@ -215,23 +203,20 @@
 
     // Distribute clouds in 3 elevation strata
     for (let i = 0; i < CLOUD_COUNT; i++) {
-      const layer = i < 22 ? 0 : i < 54 ? 1 : 2; // 0: Deep background, 1: Mid Cumulus, 2: Foreground Mist
-      const sizeMultiplier = layer === 0 ? 2.8 : layer === 1 ? 1.6 : 1.1;
+      const layer = i < 30 ? 0 : i < 70 ? 1 : 2; // 0: Deep background, 1: Mid Cumulus, 2: Foreground Mist
+      const sizeMultiplier = layer === 0 ? 3.2 : layer === 1 ? 1.8 : 1.2;
 
       clouds.push({
         layer: layer,
         spriteIdx: layer === 0 ? 2 : layer === 1 ? 0 : 1,
-        x: Math.random() * (width + 600) - 300,
-        y: Math.random() * (height + 200) - 100,
-        baseX: 0,
-        baseY: 0,
-        vx: (layer === 0 ? 0.06 : layer === 1 ? 0.14 : 0.28) + (Math.random() * 0.05),
-        vy: (Math.random() - 0.5) * 0.04,
-        baseSize: (Math.random() * 130 + 170) * sizeMultiplier,
-        scale: 1,
+        x: Math.random() * (width + 700) - 350,
+        y: Math.random() * (height + 260) - 130,
+        vx: (layer === 0 ? 0.05 : layer === 1 ? 0.12 : 0.24) + (Math.random() * 0.05),
+        vy: (Math.random() - 0.5) * 0.03,
+        baseSize: (Math.random() * 150 + 190) * sizeMultiplier,
         angle: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 0.0015,
-        baseAlpha: layer === 0 ? (Math.random() * 0.12 + 0.08) : layer === 1 ? (Math.random() * 0.22 + 0.14) : (Math.random() * 0.14 + 0.06),
+        rotSpeed: (Math.random() - 0.5) * 0.0012,
+        baseAlpha: layer === 0 ? (Math.random() * 0.14 + 0.08) : layer === 1 ? (Math.random() * 0.24 + 0.15) : (Math.random() * 0.16 + 0.07),
         noiseOffset: Math.random() * 1000,
         // Aerodynamic physics offsets
         dispX: 0,
@@ -243,46 +228,24 @@
   }
 
   // -------------------------------------------------------------
-  // Cirrus Jetstream Wind Streamlines
-  // -------------------------------------------------------------
-  const STREAMLINE_COUNT = 18;
-  const streamlines = [];
-
-  function initStreamlines() {
-    streamlines.length = 0;
-    for (let i = 0; i < STREAMLINE_COUNT; i++) {
-      streamlines.push({
-        yBase: (height / (STREAMLINE_COUNT + 1)) * (i + 1),
-        speed: Math.random() * 0.2 + 0.12,
-        amplitude: Math.random() * 32 + 20,
-        frequency: Math.random() * 0.0018 + 0.0012,
-        alpha: Math.random() * 0.16 + 0.06,
-        phase: Math.random() * Math.PI * 2,
-        lineWidth: Math.random() * 1.2 + 0.6
-      });
-    }
-  }
-
-  // -------------------------------------------------------------
   // Dynamic Cursor Slipstream Vapor Vortex Trail
   // -------------------------------------------------------------
-  const MAX_VORTEX = 60;
+  const MAX_VORTEX = 70;
   const vortices = [];
 
   function spawnVortex(x, y, vx, vy) {
     if (vortices.length >= MAX_VORTEX) vortices.shift();
     const speed = Math.hypot(vx, vy);
-    const spread = Math.random() * 14 - 7;
     vortices.push({
-      x: x + (Math.random() - 0.5) * 20,
-      y: y + (Math.random() - 0.5) * 20,
-      vx: vx * 0.15 + (Math.random() - 0.5) * 1.2,
-      vy: vy * 0.15 + (Math.random() - 0.5) * 1.2,
-      size: Math.random() * 35 + 25 + speed * 0.8,
-      growRate: Math.random() * 1.2 + 0.8,
+      x: x + (Math.random() - 0.5) * 24,
+      y: y + (Math.random() - 0.5) * 24,
+      vx: vx * 0.16 + (Math.random() - 0.5) * 1.4,
+      vy: vy * 0.16 + (Math.random() - 0.5) * 1.4,
+      size: Math.random() * 40 + 30 + speed * 0.9,
+      growRate: Math.random() * 1.4 + 0.9,
       angle: Math.random() * Math.PI * 2,
       rotSpeed: (Math.random() - 0.5) * 0.08,
-      alpha: Math.min(0.45, 0.15 + speed * 0.012),
+      alpha: Math.min(0.48, 0.18 + speed * 0.014),
       decay: Math.random() * 0.012 + 0.008,
       spriteIdx: Math.random() > 0.5 ? 0 : 1
     });
@@ -304,7 +267,6 @@
 
     initStars();
     initClouds();
-    initStreamlines();
   }
 
   window.addEventListener('resize', resize);
@@ -318,7 +280,7 @@
     lastTime = now;
     time += dt;
 
-    // Track mouse velocity and wake physics
+    // Track mouse velocity and aerodynamic wake
     if (mouse.active) {
       mouse.prevX = mouse.x;
       mouse.prevY = mouse.y;
@@ -328,10 +290,10 @@
       mouse.vy = mouse.y - mouse.prevY;
       mouse.speed = Math.hypot(mouse.vx, mouse.vy);
 
-      // Spawn swirling vapor clouds when moving through the sky
+      // Spawn swirling vapor clouds when cursor moves through the sky
       if (mouse.speed > 1.2) {
         mouse.wakeTimer += dt;
-        if (mouse.wakeTimer > 0.035) {
+        if (mouse.wakeTimer > 0.03) {
           spawnVortex(mouse.x, mouse.y, mouse.vx, mouse.vy);
           mouse.wakeTimer = 0;
         }
@@ -369,55 +331,14 @@
     const haloY = mouse.active ? mouse.y : height * 0.25;
     const skyHaloRadius = Math.max(width, height) * 0.7;
     const skyHalo = ctx.createRadialGradient(haloX, haloY, 0, haloX, haloY, skyHaloRadius);
-    skyHalo.addColorStop(0, 'rgba(255, 255, 255, 0.04)');
-    skyHalo.addColorStop(0.4, 'rgba(255, 255, 255, 0.012)');
+    skyHalo.addColorStop(0, 'rgba(255, 255, 255, 0.05)');
+    skyHalo.addColorStop(0.4, 'rgba(255, 255, 255, 0.015)');
     skyHalo.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = skyHalo;
     ctx.fillRect(0, 0, width, height);
 
     // -------------------------------------------------------------
-    // Layer 3: Cirrus Jetstream Streamlines (Wind Flow)
-    // -------------------------------------------------------------
-    const stepX = 16;
-    for (let i = 0; i < streamlines.length; i++) {
-      const line = streamlines[i];
-      ctx.beginPath();
-      let first = true;
-
-      for (let x = 0; x <= width + stepX; x += stepX) {
-        const normX = x / width;
-        const wave = Math.sin(normX * 6 + time * line.speed + line.phase) * line.amplitude;
-        const turbulence = fbm(normX * 2.5 + time * 0.08, i * 0.4, 2) * 22;
-
-        // Mouse atmospheric distortion
-        let mouseDisplace = 0;
-        if (mouse.active) {
-          const dx = x - mouse.x;
-          const dy = line.yBase - mouse.y;
-          const distSq = dx * dx + dy * dy;
-          if (distSq < mouse.radius * mouse.radius) {
-            const factor = 1 - distSq / (mouse.radius * mouse.radius);
-            mouseDisplace = Math.sin(Math.sqrt(distSq) * 0.05 - time * 5) * 35 * factor * factor;
-          }
-        }
-
-        const y = line.yBase + wave + turbulence + mouseDisplace;
-
-        if (first) {
-          ctx.moveTo(x, y);
-          first = false;
-        } else {
-          ctx.lineTo(x, y);
-        }
-      }
-
-      ctx.strokeStyle = `rgba(255, 255, 255, ${line.alpha.toFixed(3)})`;
-      ctx.lineWidth = line.lineWidth;
-      ctx.stroke();
-    }
-
-    // -------------------------------------------------------------
-    // Layer 4: Volumetric Billowing Cloud Masses
+    // Layer 3: Volumetric Billowing Cloud Masses
     // -------------------------------------------------------------
     for (let i = 0; i < clouds.length; i++) {
       const c = clouds[i];
@@ -448,13 +369,13 @@
 
         if (distSq < radSq && distSq > 1) {
           const dist = Math.sqrt(distSq);
-          const push = (1 - dist / rad) * 45;
+          const push = (1 - dist / rad) * 48;
           const nx = dx / dist;
           const ny = dy / dist;
 
           // Push cloud puff outwards away from cursor
-          c.dispVx += nx * push * 0.08;
-          c.dispVy += ny * push * 0.08;
+          c.dispVx += nx * push * 0.09;
+          c.dispVy += ny * push * 0.09;
         }
       }
 
@@ -480,7 +401,7 @@
     }
 
     // -------------------------------------------------------------
-    // Layer 5: Cursor Slipstream Vortices & Condensation Trails
+    // Layer 4: Cursor Slipstream Vortices & Condensation Trails
     // -------------------------------------------------------------
     for (let i = vortices.length - 1; i >= 0; i--) {
       const v = vortices[i];
