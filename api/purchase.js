@@ -39,7 +39,7 @@ export default async function handler(req, res) {
   const uid = String(robloxUserId);
 
   const authHeader = req.headers.authorization;
-  const sessionToken = authHeader ? authHeader.replace('Bearer ', '') : null;
+  const incomingToken = authHeader ? authHeader.replace('Bearer ', '') : null;
 
   const alreadyUsed = await redisCommand('SISMEMBER', 'roblox-used-set', uid);
   if (alreadyUsed) {
@@ -48,10 +48,10 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'This Roblox account has already been used to claim a key.' });
     }
     if (owner && owner === emailKey) {
-      if (!sessionToken) {
+      if (!incomingToken) {
         return res.status(401).json({ error: 'Please log in to view your existing key.' });
       }
-      const sessionEmail = await redisCommand('GET', 'session:' + sessionToken);
+      const sessionEmail = await redisCommand('GET', 'session:' + incomingToken);
       if (!sessionEmail || sessionEmail !== emailKey) {
         return res.status(401).json({ error: 'Session expired. Please log in again.' });
       }
@@ -67,10 +67,10 @@ export default async function handler(req, res) {
   let user;
   if (raw) {
     user = typeof raw === 'string' ? JSON.parse(raw) : raw;
-    if (!sessionToken) {
+    if (!incomingToken) {
       return res.status(401).json({ error: 'Please log in to make changes to your account.' });
     }
-    const sessionEmail = await redisCommand('GET', 'session:' + sessionToken);
+    const sessionEmail = await redisCommand('GET', 'session:' + incomingToken);
     if (!sessionEmail || sessionEmail !== emailKey) {
       return res.status(401).json({ error: 'Session expired. Please log in again.' });
     }
