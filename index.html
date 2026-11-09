@@ -6,9 +6,9 @@
   <title>Sky — Run every script.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <script src="theme.js"></script>
-  <link rel="stylesheet" href="theme.css?v=2">
+  <link rel="stylesheet" href="theme.css?v=3">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -29,7 +29,7 @@
       border-radius: 9999px !important;
     }
     ::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.45) !important;
+      background: #d20a2e !important;
     }
     ::-webkit-scrollbar-button, *::-webkit-scrollbar-button {
       display: none !important;
@@ -43,7 +43,7 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--font-main, 'Geist', sans-serif);
+      font-family: var(--font-main, 'Titillium Web', sans-serif);
       min-height: 100vh;
       overflow-x: hidden;
     }
@@ -54,7 +54,7 @@
       width: 100%; height: 100%;
       z-index: 0;
       pointer-events: none;
-      opacity: 0.6;
+      opacity: 0.65;
     }
 
     .page {
@@ -80,17 +80,30 @@
       font-weight: 700;
       color: var(--text);
       text-decoration: none;
-      letter-spacing: -0.035em;
-      font-family: var(--font-main, 'Geist', sans-serif);
+      letter-spacing: -0.02em;
+      font-family: var(--font-main, 'Titillium Web', sans-serif);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo::after {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--primary, #d20a2e);
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(210, 10, 46, 0.8);
     }
 
     .nav-links { display: flex; align-items: center; gap: 24px; }
 
     .nav-link {
-      color: var(--text-secondary);
+      color: var(--text-muted);
       text-decoration: none;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -112,11 +125,12 @@
       align-items: center;
       gap: 8px;
       padding: 6px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
+      background: rgba(210, 10, 46, 0.12);
+      border: 1px solid rgba(210, 10, 46, 0.28);
       border-radius: 999px;
       font-size: 13px;
-      color: var(--text-secondary);
+      font-weight: 600;
+      color: #ff5277;
       margin-bottom: 24px;
       backdrop-filter: blur(10px);
     }
@@ -125,21 +139,21 @@
       width: 6px;
       height: 6px;
       border-radius: 999px;
-      background: var(--success);
-      box-shadow: 0 0 8px var(--success);
+      background: #d20a2e;
+      box-shadow: 0 0 8px #d20a2e;
     }
 
     .hero h1 {
       font-size: clamp(48px, 7vw, 92px);
-      font-weight: 700;
-      letter-spacing: -0.045em;
+      font-weight: 800;
+      letter-spacing: -0.03em;
       line-height: 1.02;
       color: var(--text);
       margin-bottom: 20px;
     }
 
     .hero h1 span {
-      background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.55) 100%);
+      background: linear-gradient(135deg, #f43f5e 0%, #c80829 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -175,41 +189,48 @@
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 16px;
       padding: 32px;
       text-decoration: none;
       color: var(--text);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 20px 40px -16px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
       transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
                   background 0.22s ease,
-                  border-color 0.22s ease;
+                  border-color 0.22s ease,
+                  box-shadow 0.22s ease;
     }
     .card:hover {
       background: var(--bg-card-hover);
-      border-color: var(--border-hover);
-      transform: translateY(-2px);
+      border-color: rgba(210, 10, 46, 0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.75), 0 0 24px rgba(210, 10, 46, 0.16);
     }
 
     .card-icon {
       width: 44px;
       height: 44px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: rgba(210, 10, 46, 0.1);
+      border: 1px solid rgba(210, 10, 46, 0.2);
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 20px;
+      transition: all 0.2s ease;
     }
-    .card-icon svg { width: 22px; height: 22px; stroke: var(--text); }
+    .card-icon svg { width: 22px; height: 22px; stroke: #ff4d6d; }
+
+    .card:hover .card-icon {
+      background: rgba(210, 10, 46, 0.2);
+      border-color: rgba(210, 10, 46, 0.45);
+      box-shadow: 0 0 12px rgba(210, 10, 46, 0.3);
+    }
 
     .card-title {
       font-size: 20px;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 8px;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.015em;
     }
 
     .card-desc {
