@@ -2,7 +2,7 @@ import crypto from 'crypto';
 
 const REDIS_URL = process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
-const ADMIN_SECRET = process.env.ADMIN_SECRET || 'sxy-admin-2026';
+const ADMIN_SECRET = process.env.ADMIN_SECRET || 'sky-admin-2026';
 
 async function redisCommand(...args) {
   const res = await fetch(REDIS_URL, {

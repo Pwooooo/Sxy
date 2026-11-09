@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SXY — Settings</title>
+  <title>Sky — Settings</title>
   <script src="theme.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -189,7 +189,7 @@
   <canvas id="waves"></canvas>
   <div class="page">
     <nav class="nav">
-      <a href="index.html" class="nav-logo">SXY</a>
+      <a href="index.html" class="nav-logo">Sky</a>
       <div class="nav-links">
         <a href="dashboard.html" class="nav-link">Dashboard</a>
         <a href="purchase.html" class="nav-link">Purchase</a>
@@ -287,19 +287,19 @@
       </div>
     </div>
 
-    <footer class="footer">© 2026 SXY</footer>
+    <footer class="footer">© 2026 Sky</footer>
   </div>
 
   <script>
-    if (!localStorage.getItem('sxy_token')) {
+    if (!localStorage.getItem('sky_token')) {
       window.location.href = 'login.html';
     }
 
-    const user = localStorage.getItem('sxy_user');
-    const email = localStorage.getItem('sxy_email');
-    const plan = localStorage.getItem('sxy_plan');
-    const key = localStorage.getItem('sxy_license');
-    const roblox = localStorage.getItem('sxy_roblox_user');
+    const user = localStorage.getItem('sky_user');
+    const email = localStorage.getItem('sky_email');
+    const plan = localStorage.getItem('sky_plan');
+    const key = localStorage.getItem('sky_license');
+    const roblox = localStorage.getItem('sky_roblox_user');
 
     if (user) document.getElementById('sUsername').textContent = user;
     if (email) document.getElementById('sEmail').textContent = email;
@@ -309,7 +309,7 @@
 
     function selectTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('sxy_theme', theme);
+      localStorage.setItem('sky_theme', theme);
       document.getElementById('themeLabel').textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
       document.querySelectorAll('.custom-dropdown-option').forEach(o => {
         o.classList.toggle('active', o.getAttribute('data-theme-choice') === theme);
@@ -327,18 +327,16 @@
       }
     });
 
-    const currentTheme = localStorage.getItem('sxy_theme') || 'light';
+    const currentTheme = localStorage.getItem('sky_theme') || 'light';
     selectTheme(currentTheme);
 
     function doLogout() {
-      localStorage.removeItem('sxy_token');
-      localStorage.removeItem('sxy_user');
-      localStorage.removeItem('sxy_email');
-      localStorage.removeItem('sxy_plan');
-      localStorage.removeItem('sxy_license');
-      localStorage.removeItem('sxy_roblox_user');
-      localStorage.removeItem('sxy_license');
-      localStorage.removeItem('sxy_email');
+      localStorage.removeItem('sky_token');
+      localStorage.removeItem('sky_user');
+      localStorage.removeItem('sky_email');
+      localStorage.removeItem('sky_plan');
+      localStorage.removeItem('sky_license');
+      localStorage.removeItem('sky_roblox_user');
       window.location.href = 'index.html';
     }
   </script>

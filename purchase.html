@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SXY — Purchase</title>
+  <title>Sky — Purchase</title>
   <script src="theme.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -219,7 +219,7 @@
   <canvas id="waves"></canvas>
   <div class="page">
     <nav class="nav">
-      <a href="index.html" class="nav-logo">SXY</a>
+      <a href="index.html" class="nav-logo">Sky</a>
       <div class="nav-links">
         <a href="login.html" class="nav-link">Log In</a>
         <a href="#" class="nav-link">FAQ</a>
@@ -232,7 +232,7 @@
 
     <div class="purchase">
       <div class="purchase-title">Choose Your Plan</div>
-      <div class="purchase-sub">Get lifetime access to SXY</div>
+      <div class="purchase-sub">Get lifetime access to Sky</div>
 
       <div class="plans">
         <div class="plan-card" onclick="openModal('basic')">
@@ -269,14 +269,14 @@
       </div>
     </div>
 
-    <footer class="footer">© 2026 SXY</footer>
+    <footer class="footer">© 2026 Sky</footer>
   </div>
 
   <!-- Purchase Modal -->
   <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
     <div class="modal">
       <div class="modal-header">
-        <h2 id="modalTitle">Purchase SXY</h2>
+        <h2 id="modalTitle">Purchase Sky</h2>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
 
@@ -285,7 +285,7 @@
           <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         </div>
         <div class="modal-plan-info">
-          <h3 id="modalPlanName">SXY Basic</h3>
+          <h3 id="modalPlanName">Sky Basic</h3>
           <p>Lifetime access</p>
         </div>
         <div class="modal-plan-price" id="modalPlanPrice">R$ 2,000</div>
@@ -341,8 +341,8 @@
 
   <script>
     const plans = {
-      basic: { name: 'SXY Basic', price: 'R$ 2,000', gamepassId: '1890222051', gamepassUrl: 'https://www.roblox.com/game-pass/1890222051/Basic' },
-      premium: { name: 'SXY Premium', price: 'R$ 4,400', gamepassId: '1893671635', gamepassUrl: 'https://www.roblox.com/game-pass/1893671635/Premium' }
+      basic: { name: 'Sky Basic', price: 'R$ 2,000', gamepassId: '1890222051', gamepassUrl: 'https://www.roblox.com/game-pass/1890222051/Basic' },
+      premium: { name: 'Sky Premium', price: 'R$ 4,400', gamepassId: '1893671635', gamepassUrl: 'https://www.roblox.com/game-pass/1893671635/Premium' }
     };
     let mCurrentPlan = 'basic';
     let mUserId = null;
@@ -473,7 +473,7 @@
       const btn = document.getElementById('mContinueBtn');
       btn.disabled = true; btn.textContent = 'Processing...';
 
-      const token = localStorage.getItem('sxy_token');
+      const token = localStorage.getItem('sky_token');
       const body = {
         email,
         plan: mCurrentPlan,
@@ -493,14 +493,14 @@
         const data = await res.json();
 
         if (res.ok && data.licenseKey) {
-          localStorage.setItem('sxy_license', data.licenseKey);
+          localStorage.setItem('sky_license', data.licenseKey);
           if (data.sessionToken) {
-            localStorage.setItem('sxy_token', data.sessionToken);
-            localStorage.setItem('sxy_user', document.getElementById('mRobloxUser').value.trim());
+            localStorage.setItem('sky_token', data.sessionToken);
+            localStorage.setItem('sky_user', document.getElementById('mRobloxUser').value.trim());
           }
-          localStorage.setItem('sxy_roblox_user', document.getElementById('mRobloxUser').value.trim());
-          localStorage.setItem('sxy_plan', mCurrentPlan);
-          localStorage.setItem('sxy_email', email);
+          localStorage.setItem('sky_roblox_user', document.getElementById('mRobloxUser').value.trim());
+          localStorage.setItem('sky_plan', mCurrentPlan);
+          localStorage.setItem('sky_email', email);
           window.location.href = 'dashboard.html';
         } else {
           const status = document.getElementById('mStep4Status');

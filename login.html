@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SXY — Log In</title>
+  <title>Sky — Log In</title>
   <script src="theme.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -188,7 +188,7 @@
   <canvas id="waves"></canvas>
   <div class="page">
     <nav class="nav">
-      <a href="index.html" class="nav-logo">SXY</a>
+      <a href="index.html" class="nav-logo">Sky</a>
       <div class="nav-links">
         <a href="purchase.html" class="nav-link">Purchase</a>
         <a href="signup.html" class="nav-link">Sign Up</a>
@@ -234,11 +234,11 @@
       </div>
     </div>
 
-    <footer class="footer">© 2026 SXY</footer>
+    <footer class="footer">© 2026 Sky</footer>
   </div>
 
   <script>
-    if (localStorage.getItem('sxy_token')) {
+    if (localStorage.getItem('sky_token')) {
       window.location.href = 'dashboard.html';
     }
 
@@ -275,11 +275,11 @@
           return;
         }
 
-        localStorage.setItem('sxy_token', data.token);
-        localStorage.setItem('sxy_user', data.user.username);
-        localStorage.setItem('sxy_email', data.user.email);
-        if (data.user.plan) localStorage.setItem('sxy_plan', data.user.plan);
-        if (data.user.licenseKey) localStorage.setItem('sxy_license', data.user.licenseKey);
+        localStorage.setItem('sky_token', data.token);
+        localStorage.setItem('sky_user', data.user.username);
+        localStorage.setItem('sky_email', data.user.email);
+        if (data.user.plan) localStorage.setItem('sky_plan', data.user.plan);
+        if (data.user.licenseKey) localStorage.setItem('sky_license', data.user.licenseKey);
         window.location.href = 'dashboard.html';
       } catch (e) {
         errEl.textContent = 'Network error — try again';

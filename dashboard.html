@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SXY — Dashboard</title>
+  <title>Sky — Dashboard</title>
   <script src="theme.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -178,7 +178,7 @@
   <canvas id="waves"></canvas>
   <div class="page">
     <nav class="nav">
-      <a href="index.html" class="nav-logo">SXY</a>
+      <a href="index.html" class="nav-logo">Sky</a>
       <div class="nav-links">
         <a href="purchase.html" class="nav-link">Purchase</a>
         <a href="#" class="nav-link">FAQ</a>
@@ -250,7 +250,7 @@
             </div>
             <div>
               <div class="action-title">Documentation</div>
-              <div class="action-desc">Learn how to use SXY</div>
+              <div class="action-desc">Learn how to use Sky</div>
             </div>
           </a>
           <a href="https://discord.gg/KnM7M7pGeh" class="action-card" target="_blank">
@@ -284,14 +284,14 @@
       </div>
     </div>
 
-    <footer class="footer">© 2026 SXY</footer>
+    <footer class="footer">© 2026 Sky</footer>
   </div>
 
   <script>
-    const license = localStorage.getItem('sxy_license');
-    const user = localStorage.getItem('sxy_user');
-    const plan = localStorage.getItem('sxy_plan');
-    const email = localStorage.getItem('sxy_email');
+    const license = localStorage.getItem('sky_license');
+    const user = localStorage.getItem('sky_user');
+    const plan = localStorage.getItem('sky_plan');
+    const email = localStorage.getItem('sky_email');
 
     if (user) {
       document.getElementById('dashSub').textContent = 'Welcome, ' + user + '! Here\'s your account overview.';
@@ -316,7 +316,7 @@
     }
 
     (async () => {
-      const t = localStorage.getItem('sxy_token');
+      const t = localStorage.getItem('sky_token');
       if (t) {
         try {
           const r = await fetch('/api/admin-users', { headers: { 'Authorization': 'Bearer ' + t } });

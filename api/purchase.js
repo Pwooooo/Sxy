@@ -78,7 +78,7 @@ export default async function handler(req, res) {
     user = { email: emailKey, username: robloxUser, createdAt: new Date().toISOString() };
   }
 
-  const key = 'SXY-' + Array.from({length: 4}, () => crypto.randomBytes(2).toString('hex').toUpperCase()).join('-');
+  const key = 'SKY-' + Array.from({length: 4}, () => crypto.randomBytes(2).toString('hex').toUpperCase()).join('-');
   const sessionToken = crypto.randomBytes(32).toString('hex');
 
   user.plan = plan;
@@ -92,8 +92,8 @@ export default async function handler(req, res) {
   await redisCommand('SADD', 'roblox-used-set', uid);
   await redisCommand('SET', 'roblox-used:' + uid, emailKey);
 
-  const planName = plan === 'premium' ? 'SXY Premium' : 'SXY Basic';
-  const emailSent = await sendEmail(emailKey, 'Your SXY License Key', `
+  const planName = plan === 'premium' ? 'Sky Premium' : 'Sky Basic';
+  const emailSent = await sendEmail(emailKey, 'Your Sky License Key', `
     <div style="font-family:system-ui,sans-serif;max-width:480px;margin:0 auto;padding:32px;">
       <h2 style="color:#a855f7;">Welcome to ${planName}</h2>
       <p>Thanks for your purchase, <b>${robloxUser}</b>!</p>
@@ -101,7 +101,7 @@ export default async function handler(req, res) {
         <p style="color:#888;margin:0 0 4px;font-size:12px;">YOUR LICENSE KEY</p>
         <p style="color:#a855f7;font-size:20px;font-weight:bold;margin:0;letter-spacing:1px;">${key}</p>
       </div>
-      <p style="color:#666;font-size:13px;">Use this key on the SXY dashboard to activate your access.</p>
+      <p style="color:#666;font-size:13px;">Use this key on the Sky dashboard to activate your access.</p>
     </div>
   `);
 
