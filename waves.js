@@ -41,11 +41,11 @@
         scale: 1.00,
         scaleMobile: 1.50,
         skyColor: 0x08080a,
-        cloudColor: 0x6e7480,
-        cloudShadowColor: 0x121418,
-        sunColor: 0x7c8492,
-        sunlightColor: 0x848c9a,
-        sunGlareColor: 0x1e2024,
+        cloudColor: 0x767c88,
+        cloudShadowColor: 0x14161a,
+        sunColor: 0x88909e,
+        sunlightColor: 0x9098a6,
+        sunGlareColor: 0x242830,
         backgroundColor: 0x08080a,
         speed: 0.85
       });
