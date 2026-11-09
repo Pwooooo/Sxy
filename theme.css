@@ -178,6 +178,8 @@ html, body, *, *::before, *::after {
   background: transparent !important;
 }
 
+#vanta-bg,
+#waves,
 canvas#waves {
   position: fixed;
   top: 0;
@@ -186,7 +188,18 @@ canvas#waves {
   height: 100vh;
   z-index: 0;
   pointer-events: none;
-  opacity: 1 !important;
+  overflow: hidden;
+}
+
+#vanta-bg canvas,
+#waves canvas,
+.vanta-canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
 }
 
 /* Ambient Radial Glow on page */

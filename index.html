@@ -140,7 +140,7 @@
   </style>
 </head>
 <body>
-  <canvas id="waves"></canvas>
+  <div id="vanta-bg"></div>
 
   <div class="page">
     <nav class="nav">
@@ -168,7 +168,9 @@
     <footer class="footer">© 2026 Sky</footer>
   </div>
 
-  <script src="waves.js?v=3"></script>
+  <script src="three.min.js"></script>
+  <script src="vanta.clouds.min.js"></script>
+  <script src="waves.js?v=4"></script>
   <script>
     if (localStorage.getItem('sky_token')) {
       const btn = document.getElementById('heroBtn');
