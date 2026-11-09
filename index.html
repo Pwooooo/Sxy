@@ -101,33 +101,15 @@
 
     .hero {
       text-align: center;
-      padding: clamp(90px, 12vh, 140px) 20px 60px;
+      padding: 60px 20px 80px;
       max-width: 960px;
       margin: 0 auto;
       width: 100%;
-    }
-
-    .hero-badge {
-      display: inline-flex;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #ffffff;
-      margin-bottom: 24px;
-      backdrop-filter: blur(10px);
-    }
-
-    .hero-badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #ffffff;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
     }
 
     .hero h1 {
@@ -163,68 +145,6 @@
       flex-wrap: wrap;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      max-width: 1040px;
-      margin: 40px auto 80px;
-      padding: 0 20px;
-      width: 100%;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      text-decoration: none;
-      color: var(--text);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-                  background 0.22s ease,
-                  border-color 0.22s ease,
-                  box-shadow 0.22s ease;
-    }
-    .card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-3px);
-      box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.85);
-    }
-
-    .card-icon {
-      width: 44px;
-      height: 44px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      transition: all 0.2s ease;
-    }
-    .card-icon svg { width: 22px; height: 22px; stroke: #ffffff; }
-
-    .card:hover .card-icon {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.22);
-    }
-
-    .card-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      letter-spacing: -0.015em;
-    }
-
-    .card-desc {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
     .footer {
       text-align: center;
       padding: 40px 20px;
@@ -252,11 +172,6 @@
     </nav>
 
     <section class="hero">
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        <span>Version 1.0 is live</span>
-      </div>
-
       <h1 id="title">Run every <span>script.</span></h1>
       <p class="hero-lede">A modern Roblox development workspace for scripting, testing, and managing projects in one focused environment.</p>
 
@@ -265,32 +180,6 @@
         <a href="purchase.html" class="btn btn-outline">See Pricing</a>
       </div>
     </section>
-
-    <div class="grid">
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        </div>
-        <div class="card-title">High Compatibility</div>
-        <div class="card-desc">Engineered to support modern execution environments with unmatched stability and zero crashes.</div>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div class="card-title">Instant Activation</div>
-        <div class="card-desc">Automatic Roblox gamepass verification grants your license key immediately upon purchase.</div>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        </div>
-        <div class="card-title">Dedicated Dashboard</div>
-        <div class="card-desc">Access your license key, manage settings, select custom themes, and review documentation in one place.</div>
-      </div>
-    </div>
 
     <footer class="footer">© 2026 Sky</footer>
   </div>
