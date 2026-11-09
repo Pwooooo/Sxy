@@ -101,7 +101,7 @@
 
     .hero {
       text-align: center;
-      padding: 40px 20px 60px;
+      padding: 30px 20px 50px;
       max-width: 960px;
       margin: 0 auto;
       width: 100%;
@@ -112,14 +112,64 @@
       align-items: center;
     }
 
+    .hero-title {
+      font-size: clamp(34px, 5vw, 62px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.65) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(14px, 1.3vw, 17px);
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.5;
+      max-width: 540px;
+      margin: 0 auto 24px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-img-wrap {
+      position: relative;
+      display: inline-block;
+      margin: 0 auto 30px;
+    }
+
     .hero-img {
-      max-width: min(520px, 86vw);
+      max-width: min(480px, 86vw);
       height: auto;
       object-fit: contain;
-      margin: 0 auto 36px;
       display: block;
-      filter: drop-shadow(0 16px 40px rgba(0, 0, 0, 0.7));
+      filter: drop-shadow(0 20px 48px rgba(0, 0, 0, 0.85));
       user-select: none;
+    }
+
+    .hero-img-overlay {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 10, 12, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     }
 
     .hero-cta {
@@ -157,7 +207,13 @@
     </nav>
 
     <section class="hero">
-      <img src="hero-logo.png" alt="Sky" class="hero-img">
+      <h1 class="hero-title">Next-Gen <span>Execution.</span></h1>
+      <p class="hero-subtitle">Engineered for unmatched stability, speed, and precision.</p>
+
+      <div class="hero-img-wrap">
+        <img src="hero-logo.png" alt="Sky" class="hero-img">
+        <div class="hero-img-overlay">SKY v1.0 · THE NEXT GENERATION</div>
+      </div>
 
       <div class="hero-cta">
         <a id="heroBtn" href="signup.html" class="btn btn-primary">Get Started</a>
