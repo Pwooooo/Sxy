@@ -40,14 +40,14 @@
         minWidth: 200.00,
         scale: 1.00,
         scaleMobile: 1.50,
-        skyColor: 0x050507,
-        cloudColor: 0x18181f,
-        cloudShadowColor: 0x030304,
-        sunColor: 0x24242c,
-        sunlightColor: 0x22222a,
-        sunGlareColor: 0x0a0a0e,
-        backgroundColor: 0x050507,
-        speed: 0.80
+        skyColor: 0x020204,
+        cloudColor: 0x0e0e12,
+        cloudShadowColor: 0x010102,
+        sunColor: 0x14141a,
+        sunlightColor: 0x14141a,
+        sunGlareColor: 0x050507,
+        backgroundColor: 0x020204,
+        speed: 0.75
       });
     } catch (err) {
       console.error('[Sky] Vanta Cloud initialization error:', err);
